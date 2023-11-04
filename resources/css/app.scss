@@ -1,0 +1,13 @@
+html,body {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: v-sans, v-mono, sans-serif;
+}
