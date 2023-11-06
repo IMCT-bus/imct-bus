@@ -2,8 +2,8 @@ PHP_CONTAINER = bus-php
 EXEC = docker exec -it $(PHP_CONTAINER)
 
 install:
-	$(EXEC) php artisan key:generate
 	$(EXEC) composer i
+	$(EXEC) php artisan key:generate
 	$(EXEC) php artisan migrate --seed
 
 migrate:
