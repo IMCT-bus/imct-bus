@@ -2,8 +2,8 @@ import './bootstrap';
 import './bootstrap';
 import '../css/app.scss';
 
-import 'vfonts/Lato.css';
-import 'vfonts/FiraCode.css';
+// import 'vfonts/IBMPlexSans.css';
+// import 'vfonts/FiraCode.css';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
