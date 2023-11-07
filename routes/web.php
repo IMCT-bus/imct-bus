@@ -28,4 +28,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-//Route::redirect('/', 'trips');
+// Route::redirect('/', '/trips');

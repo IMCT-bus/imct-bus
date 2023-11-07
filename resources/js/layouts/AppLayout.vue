@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { Head } from '@inertiajs/vue3';
 import { NConfigProvider, NLayout, NLayoutContent, darkTheme } from 'naive-ui';
+
+defineProps(['title']);
 </script>
 
 <template>
-  <n-config-provider :theme="darkTheme">
+  <Head :title="title" />
+  <n-config-provider>
     <NLayout>
       <NLayoutContent class="layout-container">
         <slot></slot>
