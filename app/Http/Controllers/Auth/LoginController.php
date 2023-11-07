@@ -25,7 +25,7 @@ class LoginController extends BaseController
 //            return redirect()->route('trips.index');
         }
 
-        return redirect()->route('login.index')
+        return redirect()->route('admin.login.index')
             ->withErrors(['loginError' => 'Неверный пароль']);
     }
 }

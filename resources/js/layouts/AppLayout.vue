@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { NConfigProvider, NLayout, NLayoutContent, darkTheme } from 'naive-ui';
+import { Head, usePage } from '@inertiajs/vue3';
+import { NConfigProvider, NLayout, NLayoutContent, NThemeEditor, darkTheme } from 'naive-ui';
 
+const themeOverrides = {
+  common: {
+    primaryColor: '#F97B22',
+    primaryColorHover: '#F97B22',
+  },
+};
 defineProps(['title']);
+
+console.log(usePage())
 </script>
 
 <template>
   <Head :title="title" />
-  <n-config-provider>
+  <n-config-provider :theme-overrides="themeOverrides" inline-theme-disabled>
     <NLayout>
       <NLayoutContent class="layout-container">
         <slot></slot>
