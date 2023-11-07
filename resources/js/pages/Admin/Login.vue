@@ -12,14 +12,15 @@ type LoginForm = {
   login: string;
   password: string;
 };
+
 const form = useForm<LoginForm>({
   login: '',
   password: '',
 });
 
 const rules: FormRules = {
-  login: [{ required: true, message: 'Пожалуйста, введите логин', trigger: 'blur' }],
-  password: [{ required: true, message: 'Пожалуйста, введите пароль', trigger: 'blur' }],
+  login: [{ required: true, message: 'Пожалуйста, введите логин.', trigger: 'blur' }],
+  password: [{ required: true, message: 'Пожалуйста, введите пароль.', trigger: 'blur' }],
 };
 
 const onSubmit = () => {
@@ -32,15 +33,20 @@ const onSubmit = () => {
       <NCard>
         <NForm @submit.prevent="onSubmit" :rules="rules" :model="form">
           <NFormItem label="Логин" path="login" :feedback="form.errors.login" :validation-status="getErrorStatus(form.errors.login)">
-            <NInput v-model:value="form.login" placeholder="root" :input-props="{ autocomplete: 'off', name: 'login' }" />
+            <NInput v-model:value="form.login" placeholder="root" maxlength="20" :input-props="{ autocomplete: 'off', name: 'login' }" />
           </NFormItem>
-          <NFormItem label="Пароль" path="password" :feedback="form.errors.password || form.errors?.loginError" :validation-status="getErrorStatus(form.errors.password || getErrorStatus(form.errors?.loginError))">
+          <NFormItem
+            label="Пароль"
+            path="password"
+            :feedback="form.errors.password || form.errors?.loginError"
+            :validation-status="getErrorStatus(form.errors.password || getErrorStatus(form.errors?.loginError))"
+          >
             <NInput
               v-model:value="form.password"
               placeholder="********"
               type="password"
               minlength="8"
-              maxlength="16"
+              maxlength="30"
               @update-value="form.clearErrors('loginError')"
               :input-props="{ autocomplete: 'off', name: 'password' }"
             />
