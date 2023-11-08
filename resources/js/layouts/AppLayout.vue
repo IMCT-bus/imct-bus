@@ -46,7 +46,7 @@ const links: DropdownOption[] = [
             </template>
             <template #extra>
               <n-space align="center">
-                <n-dropdown :options="links">
+                <n-dropdown :options="links" trigger="click">
                   <n-button>
                     <n-icon :component="MenuSharp" size="32px" />
                   </n-button>
