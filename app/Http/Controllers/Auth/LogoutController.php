@@ -14,6 +14,6 @@ class LogoutController extends BaseController
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('login');
+        return redirect('admin.login.index');
     }
 }

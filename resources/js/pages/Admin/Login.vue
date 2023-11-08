@@ -62,7 +62,7 @@ const onSubmit = () => {
 
 <style scoped lang="scss">
 .form-container {
-  height: 100vh;
+  min-height: 600px;
   margin: auto;
   max-width: 500px;
 }

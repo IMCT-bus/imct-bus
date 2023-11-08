@@ -12,6 +12,6 @@ export function getLinkNode(routeName: string, title: string) {
       {
         href: route(routeName),
       },
-      title,
+      () => title,
     );
 }

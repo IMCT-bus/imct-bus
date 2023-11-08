@@ -21,8 +21,7 @@ class LoginController extends BaseController
 
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            dd('logged in');
-//            return redirect()->route('trips.index');
+            return redirect()->route('admin.routes.create');
         }
 
         return redirect()->route('admin.login.index')

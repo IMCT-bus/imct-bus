@@ -25,22 +25,10 @@ const links: DropdownOption[] = [
     key: 'login',
   },
   {
-    label: getLinkNode('admin.login.index', 'Список рейсов'),
-    key: 'trips',
-  },
-  {
-    label: getLinkNode('admin.login.index', 'Отмена регистрации'),
-    key: 'cancel',
-  },
-  {
-    label: getLinkNode('admin.login.index', 'Список маршрутов'),
-    key: 'routes',
+    label: getLinkNode('admin.routes.create', 'Добавить маршрут'),
+    key: 'route-create',
   },
   { type: 'divider', key: 'd1' },
-  {
-    label: getLinkNode('logout', 'Выход'),
-    key: 'logout',
-  },
 ];
 </script>
 
