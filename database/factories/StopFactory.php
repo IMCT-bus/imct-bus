@@ -16,7 +16,7 @@ class StopFactory extends Factory
         ['id' => 6, 'name' => 'Фуникулер', 'link' => 'https://go.2gis.com/4hy87'],
         ['id' => 7, 'name' => 'Театр оперы и балета', 'link' => 'https://go.2gis.com/eap0p'],
         ['id' => 8, 'name' => 'Надибаидзе', 'link' => 'https://go.2gis.com/avbc3'],
-        ['id' => 9, 'name' => 'Олега Кошевого', 'link' => 'https://go.2gis.com/tcbn06'],
+        ['id' => 9, 'name' => 'Олега Кошевого (Радиоприбор)', 'link' => 'https://go.2gis.com/tcbn06'],
         ['id' => 10, 'name' => 'Бурачка', 'link' => 'https://go.2gis.com/1clmw'],
         ['id' => 11, 'name' => 'Окатовая', 'link' => 'https://go.2gis.com/7j2x0'],
         ['id' => 12, 'name' => 'Кампус ДВФУ', 'link' => 'https://go.2gis.com/5rp1x'],

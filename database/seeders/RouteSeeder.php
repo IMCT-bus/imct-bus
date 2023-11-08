@@ -21,7 +21,11 @@ class RouteSeeder extends Seeder
                 'name' => $routeData['name'],
                 'starts_at' => $routeData['starts_at']
             ]);
-            $route->stops()->sync($routeData['stopsIds']);
+
+            foreach ($routeData['stopsIds'] as $index => $stopId) {
+                $arrivesAt = $routeData['arrivesAtValues'][$index] ?? null;
+                $route->stops()->attach($stopId, ['arrives_at' => $arrivesAt]);
+            }
         }
 
         Schema::enableForeignKeyConstraints();
