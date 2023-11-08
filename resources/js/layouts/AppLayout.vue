@@ -38,8 +38,8 @@ const links: DropdownOption[] = [
   },
   { type: 'divider', key: 'd1' },
   {
-    label: getLinkNode('admin.login.index', 'Выход'),
-    key: 'routes',
+    label: getLinkNode('logout', 'Выход'),
+    key: 'logout',
   },
 ];
 </script>
@@ -66,7 +66,9 @@ const links: DropdownOption[] = [
               </n-space>
             </template>
           </n-page-header>
-          <slot></slot>
+          <main class="main-content">
+            <slot></slot>
+          </main>
         </n-layout-content>
       </n-layout>
     </n-config-provider>
@@ -75,10 +77,13 @@ const links: DropdownOption[] = [
 
 <style scoped lang="scss">
 .layout-container {
-  border: 1px solid black;
   min-height: 100vh;
   max-width: 70rem;
   margin: auto;
   padding: 0.75rem;
+
+  .main-content {
+    margin-top: 2rem;
+  }
 }
 </style>

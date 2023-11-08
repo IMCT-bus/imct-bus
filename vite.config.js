@@ -35,4 +35,11 @@ export default defineConfig({
       resolvers: [NaiveUiResolver()],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "resources/css/mixins.scss";',
+      },
+    },
+  },
 });
