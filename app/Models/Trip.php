@@ -24,6 +24,7 @@ class Trip extends Model
     use HasFactory, UsesUuid;
 
 	public $timestamps = false;
+    protected $primaryKey = 'uuid';
 
 	protected $casts = [
 		'date' => 'datetime',
