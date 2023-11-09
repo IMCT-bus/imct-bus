@@ -12,7 +12,7 @@ class RouteResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'starts_at' => $this->starts_at,
+            'starts_at' => $this->starts_at->format('H:i'),
             'stops' => StopResource::collection($this->whenLoaded('stops')),
         ];
     }

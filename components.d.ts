@@ -14,7 +14,10 @@ declare module 'vue' {
     Login: typeof import('./resources/js/pages/Admin/Login.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NButton: typeof import('naive-ui')['NButton']
+    NButtonGroup: typeof import('naive-ui')['NButtonGroup']
     NCard: typeof import('naive-ui')['NCard']
+    NCollapse: typeof import('naive-ui')['NCollapse']
+    NCollapseItem: typeof import('naive-ui')['NCollapseItem']
     NDivider: typeof import('naive-ui')['NDivider']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NForm: typeof import('naive-ui')['NForm']
@@ -30,8 +33,12 @@ declare module 'vue' {
     NPageHeader: typeof import('naive-ui')['NPageHeader']
     NSpace: typeof import('naive-ui')['NSpace']
     NThing: typeof import('naive-ui')['NThing']
+    NTimeline: typeof import('naive-ui')['NTimeline']
+    NTimelineItem: typeof import('naive-ui')['NTimelineItem']
     NTimePicker: typeof import('naive-ui')['NTimePicker']
     RouteForm: typeof import('./resources/js/components/Routes/RouteForm.vue')['default']
+    RouteList: typeof import('./resources/js/components/Routes/RouteList/RouteList.vue')['default']
+    RouteListItem: typeof import('./resources/js/components/Routes/RouteList/RouteListItem.vue')['default']
     StopInput: typeof import('./resources/js/components/Routes/StopInput.vue')['default']
   }
 }

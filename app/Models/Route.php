@@ -22,12 +22,12 @@ class Route extends Model
 		'starts_at'
 	];
 
-    protected $casts = [
-        'starts_at' => 'datetime'
-    ];
+	protected $casts = [
+		'starts_at' => 'datetime'
+	];
 
 	public function stops(): BelongsToMany
-    {
+	{
 		return $this->belongsToMany(Stop::class)->withPivot('arrives_at');
 	}
 }

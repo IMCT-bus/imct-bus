@@ -16,7 +16,7 @@ class RouteController extends BaseController
 
     public function index(): Response
     {
-        return inertia('Routes/Index', [
+        return inertia('Admin/Routes/Index', [
             'routes' => RouteResource::collection(Route::with('stops')->get())
         ]);
     }

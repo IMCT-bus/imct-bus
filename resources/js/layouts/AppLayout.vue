@@ -5,6 +5,10 @@ import { GlobalThemeOverrides, NConfigProvider, NThemeEditor, DropdownOption } f
 
 import { BusSharp, MenuSharp } from '@vicons/ionicons5';
 import { getLinkNode } from '@/utils/link-node';
+import { usePage } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+import route from 'ziggy-js';
+import axios from 'axios';
 
 defineProps(['title']);
 
@@ -19,16 +23,23 @@ const themeOverrides: GlobalThemeOverrides = {
   },
 };
 
+const page = usePage();
+
 const links: DropdownOption[] = [
   {
-    label: getLinkNode('admin.login.index', 'Вход'),
-    key: 'login',
+    label: getLinkNode('admin.routes.index', 'Список маршрутов'),
+    key: 'routes',
   },
   {
-    label: getLinkNode('admin.routes.create', 'Добавить маршрут'),
-    key: 'route-create',
+    label: 'Выход',
+    props: {
+      onClick: () => router.visit(route('admin.logout')),
+      style: {
+        color: 'red',
+      },
+    },
+    show: page.props.loggedIn,
   },
-  { type: 'divider', key: 'd1' },
 ];
 </script>
 

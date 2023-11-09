@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Stop extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
 	public $timestamps = false;
 
@@ -25,7 +25,7 @@ class Stop extends Model
 	];
 
 	public function routes(): BelongsToMany
-    {
+	{
 		return $this->belongsToMany(Route::class)->withPivot('arrives_at');
 	}
 }
