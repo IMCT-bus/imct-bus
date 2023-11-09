@@ -11,13 +11,8 @@ import { Add, Close } from '@vicons/ionicons5';
 import { FormItemRule } from 'naive-ui';
 
 type RouteFormProps = {
-  form: InertiaForm<RouteFormType>;
+  form: InertiaForm<Resources.RouteResource>;
   onSubmit: (...args: any[]) => void
-};
-
-export type RouteFormType = {
-  name: string;
-  stops: (typeof EMPTY_STOP)[];
 };
 
 const { form } = defineProps<RouteFormProps>();
@@ -100,9 +95,9 @@ const arrivesAtRule: FormItemRule = {
             <n-time-picker
               v-model:formatted-value="stop.arrives_at"
               placeholder="Время прибытия"
-              value-format="HH:mm"
+              value-format="HH:mm:ss"
               :default-value="0"
-              format="hh:mm"
+              format="HH:mm"
               :use12-hours="false"
               :hours="getRange(6, 22)"
             />

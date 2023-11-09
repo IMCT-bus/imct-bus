@@ -4,12 +4,13 @@ import route from 'ziggy-js';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import RouteForm from '@/components/Routes/RouteForm.vue';
-import type { RouteFormType } from '@/components/Routes/RouteForm.vue';
 
 import { EMPTY_STOP } from '@/utils/constants';
 
-const form = useForm<RouteFormType>({
+const form = useForm<Resources.RouteResource>({
+  id: Number.MAX_SAFE_INTEGER,
   name: '',
+  starts_at: '',
   stops: [EMPTY_STOP],
 });
 

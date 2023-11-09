@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 
-export const EMPTY_STOP: Models.Stop & {arrives_at: string} = {
+export const EMPTY_STOP: Resources.StopResource = {
   id: nanoid(),
   name: "",
   link: null,
-  arrives_at: "08:00",
+  arrives_at: "08:00:00",
 } as const;

@@ -6,7 +6,7 @@ declare namespace Models {
   }
 
   export type Route = {
-    id: string;
+    id: number;
     name: string;
     starts_at: string;
   }
@@ -20,4 +20,12 @@ declare namespace Models {
     route?: Models.Route;
     stop?: Models.Stop;
   }
+}
+
+declare namespace Resources {
+  export type RouteResource = Models.Route & {
+    stops: Resources.StopResource[];
+  }
+
+  export type StopResource = Models.Stop & {arrives_at: string }
 }
