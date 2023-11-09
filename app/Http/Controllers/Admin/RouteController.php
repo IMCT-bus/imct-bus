@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Route;
+use App\Models\Stop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -31,9 +32,20 @@ class RouteController extends BaseController
 
     public function store(Request $request): RedirectResponse
     {
-        $routeId = Route::create($request->validated());
+        $route = Route::create([
+            'name' => $request->get('name'),
+            'starts_at' => $request->get('starts_at'),
+        ]);
 
-        return redirect()->route('admin.routes.show', $routeId);
+        foreach ($request->get('stops') as $stopData) {
+            $stopId = Stop::firstOrCreate([
+                'name' => $stopData['name'],
+                'link' => $stopData['link'],
+            ])->id;
+            $route->stops()->attach($stopId, ['arrives_at' => $stopData['arrives_at']]);
+        }
+
+        return redirect()->route('admin.routes.show', $route->id);
     }
 
     public function edit(Route $route): Response

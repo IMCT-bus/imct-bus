@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @property int $id
  * @property string $name
- * @property string $link
+ * @property string|null $link
  *
  * @property Route[] $routes
  */
