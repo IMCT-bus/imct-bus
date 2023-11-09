@@ -27,5 +27,5 @@ declare namespace Resources {
     stops: Resources.StopResource[];
   }
 
-  export type StopResource = Models.Stop & {arrives_at: string }
+  export type StopResource = Models.Stop & {arrives_at: string | null }
 }

@@ -12,7 +12,7 @@ import { FormItemRule } from 'naive-ui';
 
 type RouteFormProps = {
   form: InertiaForm<Resources.RouteResource>;
-  onSubmit: (...args: any[]) => void
+  onSubmit: (...args: any[]) => void;
 };
 
 const { form } = defineProps<RouteFormProps>();
@@ -28,6 +28,16 @@ const addStop = () => {
 const removeStop = (stopIndex: number) => {
   if (stopIndex > form.stops.length) return;
   form.stops.splice(stopIndex, 1);
+};
+
+const setNullTime = (stopIndex: number) => {
+  if (stopIndex > form.stops.length) return;
+  form.stops[stopIndex].arrives_at = null;
+};
+
+const setTime = (stopIndex: number) => {
+  if (stopIndex > form.stops.length) return;
+  form.stops[stopIndex].arrives_at = '08:00';
 };
 
 const nameRule: FormItemRule = {
@@ -93,15 +103,18 @@ const arrivesAtRule: FormItemRule = {
             :validation-status="getErrorStatus(formErrors[`stops.${idx}.arrives_at`])"
           >
             <n-time-picker
+              v-if="stop.arrives_at"
               v-model:formatted-value="stop.arrives_at"
               placeholder="Время прибытия"
-              value-format="HH:mm:ss"
+              value-format="HH:mm"
               :default-value="0"
               format="HH:mm"
               :use12-hours="false"
               :hours="getRange(6, 22)"
             />
           </n-form-item>
+          <n-button v-if="stop.arrives_at" @click="setNullTime(idx)">Без времени</n-button>
+          <n-button v-else @click="setTime(idx)">Добавить время</n-button>
         </div>
       </div>
       <div class="button-container">
@@ -121,16 +134,17 @@ const arrivesAtRule: FormItemRule = {
 
 <style scoped lang="scss">
 .stop-container {
-  @include row;
+  display: grid;
+  grid-template-columns: repeat(2, 2fr) repeat(2, 1fr);
   column-gap: 1rem;
-  width: 100%;
-  & * {
-    flex-grow: 1;
-  }
 
   @include phone {
-    flex-wrap: wrap;
+    grid-template-columns: 1fr;
   }
+}
+
+.n-time-picker {
+  width: 100%;
 }
 
 .button-container {
