@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\RouteResource;
 use App\Models\Route;
 use App\Models\Stop;
 use Illuminate\Http\RedirectResponse;
@@ -14,14 +15,14 @@ class RouteController extends BaseController
     public function index(): Response
     {
         return inertia('Routes/Index', [
-            'routes' => Route::with('stops')
+            'routes' => RouteResource::collection(Route::with('stops')->get())
         ]);
     }
 
     public function show(Route $route): Response
     {
         return inertia('Admin/Routes/Show', [
-            'route' => $route->load('stops')
+            'route' => new RouteResource($route->load('stops'))
         ]);
     }
 
@@ -51,7 +52,7 @@ class RouteController extends BaseController
     public function edit(Route $route): Response
     {
         return inertia('Admin/Routes/Edit', [
-            'route' => $route->load('stops')
+            'route' => new RouteResource($route->load('stops'))
         ]);
     }
 
