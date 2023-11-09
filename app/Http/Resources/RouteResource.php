@@ -13,7 +13,11 @@ class RouteResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'starts_at' => $this->starts_at->format('H:i'),
-            'stops' => StopResource::collection($this->whenLoaded('stops')),
+            'stops' => StopResource::collection(
+                $this->whenLoaded('stops', function () {
+                    return $this->stops->sortBy('pivot.arrives_at')->values();
+                })
+            ),
         ];
     }
 }

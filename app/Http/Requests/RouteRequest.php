@@ -15,8 +15,11 @@ class RouteRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:203'],
-            'starts_at' => ['required'],
+            'starts_at' => ['required', 'string', 'date_format:H:i'],
             'stops' => ['required', 'array'],
+            'stops.*.name' => ['required', 'string', 'max:100'],
+            'stops.*.link' => ['nullable', 'string', 'url', 'max:255'],
+            'stops.*.arrives_at' => ['nullable', 'string', 'date_format:H:i'],
         ];
     }
 }

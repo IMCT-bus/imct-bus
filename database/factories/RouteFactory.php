@@ -17,7 +17,7 @@ class RouteFactory extends Factory
         ],
         ['id' => 3, 'name' => 'Кампус ДВФУ — Парк победы', 'starts_at' => '18:45',
             'stopsIds' => [17, 18, 19, 20, 6, 21, 22, 23, 24],
-            'arrivesAtValues' => [],
+            'arrivesAtValues' => ['18:45', null, null, null, null, null, null, null, null],
         ],
     ];
 
