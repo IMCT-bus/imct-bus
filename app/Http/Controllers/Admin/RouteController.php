@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\RouteRequest;
 use App\Http\Resources\RouteResource;
 use App\Models\Route;
-use App\Models\Stop;
+use App\Services\RouteService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class RouteController extends BaseController
 {
+    public function __construct(private readonly RouteService $routeService){}
+
     public function index(): Response
     {
         return inertia('Routes/Index', [
@@ -31,22 +33,13 @@ class RouteController extends BaseController
         return inertia('Admin/Routes/Create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(RouteRequest $request): RedirectResponse
     {
-        $route = Route::create([
-            'name' => $request->get('name'),
-            'starts_at' => $request->get('starts_at'),
-        ]);
+        $validated = $request->validated();
 
-        foreach ($request->get('stops') as $stopData) {
-            $stopId = Stop::firstOrCreate([
-                'name' => $stopData['name'],
-                'link' => $stopData['link'],
-            ])->id;
-            $route->stops()->attach($stopId, ['arrives_at' => $stopData['arrives_at']]);
-        }
+        $routeId = $this->routeService->create($validated);
 
-        return redirect()->route('admin.routes.show', $route->id);
+        return redirect()->route('admin.routes.show', $routeId);
     }
 
     public function edit(Route $route): Response
@@ -56,9 +49,11 @@ class RouteController extends BaseController
         ]);
     }
 
-    public function update(Request $request, Route $route): RedirectResponse
+    public function update(RouteRequest $request, Route $route): RedirectResponse
     {
-        $route->update($request->validated());
+        $validated = $request->validated();
+
+        $this->routeService->update($validated, $route);
 
         return redirect()->route('admin.routes.show', $route->id);
     }

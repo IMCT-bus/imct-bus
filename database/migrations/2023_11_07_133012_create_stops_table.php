@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::create('stops', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('link')->unique()->nullable();
+            $table->string('link')->nullable();
+            $table->unique(['name', 'link']);
         });
     }
 
