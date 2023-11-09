@@ -8,6 +8,7 @@
     "devDependencies": {
         "@types/node": "^20.8.10",
         "@types/ziggy-js": "^1.8.0",
+        "@vicons/ionicons5": "^0.12.0",
         "@vitejs/plugin-vue": "^4.4.0",
         "autoprefixer": "^10.4.16",
         "axios": "^1.1.2",
@@ -17,11 +18,14 @@
         "prettier": "^3.0.3",
         "sass": "^1.69.5",
         "typescript": "^5.2.2",
+        "unplugin-vue-components": "^0.25.2",
         "vfonts": "^0.0.3",
         "vite": "^4.0.0"
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.14",
+        "date-fns": "^2.30.0",
+        "nanoid": "^4.0.2",
         "vue": "^3.3.7",
         "ziggy-js": "^1.8.1"
     }

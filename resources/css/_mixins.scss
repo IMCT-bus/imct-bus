@@ -1,0 +1,41 @@
+$screen-phone-min: 320px;
+
+$screen-tablet-min: 640px;
+
+$screen-laptop-min: 1024px;
+
+$screen-desktop-min: 1360px;
+
+@mixin phone {
+  @media (min-width: #{$screen-phone-min}) and  (max-width: #{$screen-laptop-min - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$screen-tablet-min}) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: #{$screen-laptop-min}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$screen-desktop-min}) {
+    @content;
+  }
+}
+
+@mixin row {
+  display: flex;
+  gap: 1rem;
+}
+
+@mixin stack {
+  @include row;
+  flex-direction: column;
+}

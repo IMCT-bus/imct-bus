@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
-import { NSpace, NCard, NForm, NFormItem, NInput, NButton, FormRules } from 'naive-ui';
+import { FormRules } from 'naive-ui';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 
@@ -29,19 +29,19 @@ const onSubmit = () => {
 </script>
 <template>
   <AppLayout title="Вход">
-    <NSpace vertical justify="center" class="form-container">
-      <NCard>
-        <NForm @submit.prevent="onSubmit" :rules="rules" :model="form">
-          <NFormItem label="Логин" path="login" :feedback="form.errors.login" :validation-status="getErrorStatus(form.errors.login)">
-            <NInput v-model:value="form.login" placeholder="root" maxlength="20" :input-props="{ autocomplete: 'off', name: 'login' }" />
-          </NFormItem>
-          <NFormItem
+    <n-space vertical justify="center" class="form-container">
+      <n-card>
+        <n-form @submit.prevent="onSubmit" :rules="rules" :model="form">
+          <n-form-item label="Логин" path="login" :feedback="form.errors.login" :validation-status="getErrorStatus(form.errors.login)">
+            <n-input v-model:value="form.login" placeholder="root" maxlength="20" :input-props="{ autocomplete: 'off', name: 'login' }" />
+          </n-form-item>
+          <n-form-item
             label="Пароль"
             path="password"
             :feedback="form.errors.password || form.errors?.loginError"
             :validation-status="getErrorStatus(form.errors.password || getErrorStatus(form.errors?.loginError))"
           >
-            <NInput
+            <n-input
               v-model:value="form.password"
               placeholder="********"
               type="password"
@@ -50,19 +50,19 @@ const onSubmit = () => {
               @update-value="form.clearErrors('loginError')"
               :input-props="{ autocomplete: 'off', name: 'password' }"
             />
-          </NFormItem>
-          <NSpace justify="end">
-            <NButton type="primary" attr-type="submit" :disabled="form.processing">Войти</NButton>
-          </NSpace>
-        </NForm>
-      </NCard>
-    </NSpace>
+          </n-form-item>
+          <n-space justify="end">
+            <n-button type="primary" attr-type="submit" :disabled="form.processing">Войти</n-button>
+          </n-space>
+        </n-form>
+      </n-card>
+    </n-space>
   </AppLayout>
 </template>
 
 <style scoped lang="scss">
 .form-container {
-  height: 100vh;
+  min-height: 600px;
   margin: auto;
   max-width: 500px;
 }
