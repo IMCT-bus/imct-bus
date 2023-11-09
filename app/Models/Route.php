@@ -28,6 +28,7 @@ class Route extends Model
 
 	public function stops(): BelongsToMany
 	{
-		return $this->belongsToMany(Stop::class)->withPivot('arrives_at');
+		return $this->belongsToMany(Stop::class)
+            ->withPivot('arrives_at', 'position');
 	}
 }

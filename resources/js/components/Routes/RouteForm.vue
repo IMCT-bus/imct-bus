@@ -22,6 +22,7 @@ const addStop = () => {
   form.stops.push({
     ...EMPTY_STOP,
     id: nanoid(),
+    position: form.stops.length + 1,
   });
 };
 

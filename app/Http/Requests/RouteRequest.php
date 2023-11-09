@@ -20,6 +20,7 @@ class RouteRequest extends FormRequest
             'stops.*.name' => ['required', 'string', 'max:100'],
             'stops.*.link' => ['nullable', 'string', 'url', 'max:255'],
             'stops.*.arrives_at' => ['nullable', 'string', 'date_format:H:i'],
+            'stops.*.position' => ['required', 'integer', 'between:0,255'],
         ];
     }
 }

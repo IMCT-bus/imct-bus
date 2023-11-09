@@ -7,7 +7,7 @@ use App\Models\Stop;
 
 class RouteService
 {
-    public function create(array $validated): int
+    public function create(array $validated): void
     {
         $route = Route::create([
             'name' => $validated['name'],
@@ -15,8 +15,6 @@ class RouteService
         ]);
 
         $this->syncStops($route, $validated['stops']);
-
-        return $route->id;
     }
 
     public function update(array $validated, Route $route): void
@@ -38,7 +36,10 @@ class RouteService
                 'link' => $stop['link'],
             ])->id;
 
-            $route->stops()->attach($stopId, ['arrives_at' => $stop['arrives_at']]);
+            $route->stops()->attach(
+                $stopId,
+                ['arrives_at' => $stop['arrives_at'], 'position' => $stop['position']]
+            );
         }
     }
 

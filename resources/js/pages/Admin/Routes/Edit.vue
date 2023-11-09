@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import AppLayout from "@/layouts/AppLayout.vue";
+import RouteForm from "@/components/Routes/RouteForm.vue";
+
 import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
@@ -12,7 +15,13 @@ const form = useForm<Resources.RouteResource>({ ...props.route });
 
 function onSubmit() {
   form
-    .transform((form) => Object.assign(form, { starts_at: form.stops[0].arrives_at }))
+    .transform((form) => Object.assign(form, {
+      starts_at: form.stops[0].arrives_at,
+      stops: form.stops.map((stop, idx) => ({
+        ...stop,
+        position: idx + 1
+      }))
+    }))
     .put(route('admin.routes.update', props.route.id), {
       onSuccess: () => {
         form.reset();

@@ -30,8 +30,8 @@ defineProps<RouteListItemProps>();
               <template #header>
                 <n-space align="start" class="stop-link-container">
                   <n-icon :component="LocationSharp" color="#0168F9" size="16px" v-if="stop.link" />
-                  <Link v-if="stop.link" :href="stop.link" class="stop-link">{{ stop.name }}</Link>
-                  <span v-else>{{ stop.name }}</span>
+                  <a v-if="stop.link" :href="stop.link" target="_blank" class="stop-link">{{ stop.name }}</a>
+                  <span v-else class="stop-link">{{ stop.name }}</span>
                 </n-space>
               </template>
             </n-timeline-item>

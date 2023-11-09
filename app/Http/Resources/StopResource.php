@@ -15,6 +15,7 @@ class StopResource extends JsonResource
             'name' => $this->name,
             'link' => $this->link,
             'arrives_at' => $arrives_at,
+            'position' => $this->pivot->position
         ];
     }
 }

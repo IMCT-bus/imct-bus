@@ -24,7 +24,7 @@ class RouteSeeder extends Seeder
 
             foreach ($routeData['stopsIds'] as $index => $stopId) {
                 $arrivesAt = $routeData['arrivesAtValues'][$index] ?? null;
-                $route->stops()->attach($stopId, ['arrives_at' => $arrivesAt]);
+                $route->stops()->attach($stopId, ['arrives_at' => $arrivesAt, 'position' => $index + 1]);
             }
         }
 

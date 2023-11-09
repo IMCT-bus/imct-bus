@@ -15,7 +15,7 @@ class RouteResource extends JsonResource
             'starts_at' => $this->starts_at->format('H:i'),
             'stops' => StopResource::collection(
                 $this->whenLoaded('stops', function () {
-                    return $this->stops->sortBy('pivot.arrives_at')->values();
+                    return $this->stops->sortBy('pivot.position')->values();
                 })
             ),
         ];

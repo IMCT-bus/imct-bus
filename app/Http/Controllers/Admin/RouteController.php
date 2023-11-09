@@ -16,9 +16,11 @@ class RouteController extends BaseController
 
     public function index(): Response
     {
-        return inertia('Admin/Routes/Index', [
-            'routes' => RouteResource::collection(Route::with('stops')->get())
-        ]);
+        $routes = RouteResource::collection(
+            Route::with('stops')->orderBy('starts_at')->get()
+        );
+
+        return inertia('Admin/Routes/Index', ['routes' => $routes]);
     }
 
     public function create(): Response
@@ -30,9 +32,9 @@ class RouteController extends BaseController
     {
         $validated = $request->validated();
 
-        $routeId = $this->routeService->create($validated);
+        $this->routeService->create($validated);
 
-        return redirect()->route('admin.routes.show', $routeId);
+        return redirect()->route('admin.routes.index');
     }
 
     public function edit(Route $route): Response
@@ -48,7 +50,7 @@ class RouteController extends BaseController
 
         $this->routeService->update($validated, $route);
 
-        return redirect()->route('admin.routes.show', $route->id);
+        return redirect()->route('admin.routes.index');
     }
 
     public function destroy(Route $route): RedirectResponse

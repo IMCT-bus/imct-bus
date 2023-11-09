@@ -5,4 +5,5 @@ export const EMPTY_STOP: Resources.StopResource = {
   name: "",
   link: null,
   arrives_at: "08:00",
+  position: 1,
 } as const;

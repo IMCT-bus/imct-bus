@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('route_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stop_id')->constrained()->cascadeOnDelete();
             $table->time('arrives_at')->nullable();
+            $table->unsignedTinyInteger('position');
         });
     }
 

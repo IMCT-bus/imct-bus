@@ -30,8 +30,6 @@ export default defineConfig({
       },
     }),
     Components({
-      dirs: ['resources/js'],
-      extensions: ['vue'],
       resolvers: [NaiveUiResolver()],
     }),
   ],
