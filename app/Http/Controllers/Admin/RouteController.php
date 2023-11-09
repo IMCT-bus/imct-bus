@@ -21,13 +21,6 @@ class RouteController extends BaseController
         ]);
     }
 
-    public function show(Route $route): Response
-    {
-        return inertia('Admin/Routes/Show', [
-            'route' => new RouteResource($route->load('stops'))
-        ]);
-    }
-
     public function create(): Response
     {
         return inertia('Admin/Routes/Create');
