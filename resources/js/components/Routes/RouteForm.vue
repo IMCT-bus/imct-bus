@@ -1,21 +1,26 @@
 <script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
+import route from 'ziggy-js';
+
+import { Add, Close } from '@vicons/ionicons5';
+import { FormItemRule } from 'naive-ui';
+
 import { getRange } from '@/utils/lib';
 import { getErrorStatus } from '@/utils/validation';
-import { useForm } from '@inertiajs/vue3';
-import { Add } from '@vicons/ionicons5';
-import { FormItemRule } from 'naive-ui';
-import route from 'ziggy-js';
+import { nanoid } from 'nanoid';
 
 type RouteForm = {
   name: string;
   stops: {
+    id: string;
     name: string;
-    arrives_at: string | null;
+    arrives_at: string;
     link?: string;
   }[];
 };
 
 const EMPTY_STOP = {
+  id: nanoid(),
   name: '',
   arrives_at: '08:00',
   link: '',
@@ -27,15 +32,25 @@ const form = useForm<RouteForm>({
 });
 
 function onSubmit() {
-  form.post(route('admin.routes.store'), {
-    onSuccess: () => {
-      form.reset();
-    },
-  });
+  form
+    .transform((form) => Object.assign(form, { starts_at: form.stops[0].arrives_at }))
+    .post(route('admin.routes.store'), {
+      onSuccess: () => {
+        form.reset();
+      },
+    });
 }
 
 const addStop = () => {
-  form.stops.push(EMPTY_STOP);
+  form.stops.push({
+    ...EMPTY_STOP,
+    id: nanoid(),
+  });
+};
+
+const removeStop = (stopIndex: number) => {
+  if (stopIndex > form.stops.length) return;
+  form.stops.splice(stopIndex, 1);
 };
 
 const nameRule: FormItemRule = {
@@ -69,8 +84,13 @@ const arrivesAtRule: FormItemRule = {
       >
         <n-input v-model:value="form.name" placeholder="Баляева — Кампус ДВФУ" />
       </n-form-item>
-      <div v-for="(stop, idx) in form.stops">
-        <p>Остановка №{{ idx + 1 }}</p>
+      <div v-for="(stop, idx) in form.stops" :key="stop.id">
+        <div class="flex-container">
+          <p>Остановка №{{ idx + 1 }}</p>
+          <n-button ghost type="error" size="tiny" @click="removeStop(idx)" v-if="form.stops.length > 1">
+            <n-icon :component="Close" />
+          </n-button>
+        </div>
         <div class="stop-container">
           <n-form-item
             :show-label="false"
@@ -98,9 +118,10 @@ const arrivesAtRule: FormItemRule = {
             <n-time-picker
               v-model:formatted-value="stop.arrives_at"
               placeholder="Время прибытия"
-              value-format="hh:mm"
+              value-format="HH:mm"
               :default-value="0"
               format="hh:mm"
+              :use12-hours="false"
               :hours="getRange(6, 22)"
             />
           </n-form-item>
@@ -123,20 +144,15 @@ const arrivesAtRule: FormItemRule = {
 
 <style scoped lang="scss">
 .stop-container {
-  display: grid;
+  @include row;
+  column-gap: 1rem;
   width: 100%;
-  grid-template-columns: 2fr 2fr 1fr;
-  gap: 1rem;
+  & * {
+    flex-grow: 1;
+  }
 
   @include phone {
-    row-gap: 0;
-    grid-template-columns: 1fr 1fr;
-    & > *:first-child {
-      grid-column: 1 / 3;
-    }
-  }
-  .n-time-picker {
-    flex-grow: 1;
+    flex-wrap: wrap;
   }
 }
 
