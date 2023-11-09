@@ -1,45 +1,27 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
-import route from 'ziggy-js';
+import { computed } from 'vue';
+import { InertiaForm } from '@inertiajs/vue3';
+import { nanoid } from 'nanoid';
+
+import { getRange } from '@/utils/lib';
+import { getErrorStatus } from '@/utils/validation';
+import { EMPTY_STOP } from '@/utils/constants';
 
 import { Add, Close } from '@vicons/ionicons5';
 import { FormItemRule } from 'naive-ui';
 
-import { getRange } from '@/utils/lib';
-import { getErrorStatus } from '@/utils/validation';
-import { nanoid } from 'nanoid';
-
-type RouteForm = {
-  name: string;
-  stops: {
-    id: string;
-    name: string;
-    arrives_at: string;
-    link?: string;
-  }[];
+type RouteFormProps = {
+  form: InertiaForm<RouteFormType>;
+  onSubmit: (...args: any[]) => void
 };
 
-const EMPTY_STOP = {
-  id: nanoid(),
-  name: '',
-  arrives_at: '08:00',
-  link: '',
-} as const;
+export type RouteFormType = {
+  name: string;
+  stops: (typeof EMPTY_STOP)[];
+};
 
-const form = useForm<RouteForm>({
-  name: '',
-  stops: [EMPTY_STOP],
-});
-
-function onSubmit() {
-  form
-    .transform((form) => Object.assign(form, { starts_at: form.stops[0].arrives_at }))
-    .post(route('admin.routes.store'), {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
-}
+const { form } = defineProps<RouteFormProps>();
+const formErrors = computed(() => form.errors as Record<string, string>);
 
 const addStop = () => {
   form.stops.push({
@@ -96,15 +78,15 @@ const arrivesAtRule: FormItemRule = {
             :show-label="false"
             :path="`stops[${idx}].name`"
             :rule="stopNameRule"
-            :feedback="form.errors[`stops.${idx}.name`]"
-            :validation-status="getErrorStatus(form.errors[`stops.${idx}.name`])"
+            :feedback="formErrors[`stops.${idx}.name`]"
+            :validation-status="getErrorStatus(formErrors[`stops.${idx}.name`])"
           >
             <n-input v-model:value="stop.name" placeholder="Название остановки" />
           </n-form-item>
           <n-form-item
             :show-label="false"
-            :feedback="form.errors[`stops.${idx}.link`]"
-            :validation-status="getErrorStatus(form.errors[`stops.${idx}.link`])"
+            :feedback="formErrors[`stops.${idx}.link`]"
+            :validation-status="getErrorStatus(formErrors[`stops.${idx}.link`])"
           >
             <n-input v-model:value="stop.link" placeholder="Ссылка на 2GIS" />
           </n-form-item>
@@ -112,8 +94,8 @@ const arrivesAtRule: FormItemRule = {
             :show-label="false"
             :path="`stops[${idx}].arrives_at`"
             :rule="arrivesAtRule"
-            :feedback="form.errors[`stops.${idx}.arrives_at`]"
-            :validation-status="getErrorStatus(form.errors[`stops.${idx}.arrives_at`])"
+            :feedback="formErrors[`stops.${idx}.arrives_at`]"
+            :validation-status="getErrorStatus(formErrors[`stops.${idx}.arrives_at`])"
           >
             <n-time-picker
               v-model:formatted-value="stop.arrives_at"
