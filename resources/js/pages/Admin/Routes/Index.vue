@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import RouteList from '@/components/Routes/RouteList/RouteList.vue';
 
-import { Add } from '@vicons/ionicons5';
+import { CreateOutline } from '@vicons/ionicons5';
 import { router } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
@@ -17,7 +17,9 @@ defineProps<RoutesIndexProps>();
   <AppLayout title="Список маршрутов">
     <div class="actions">
       <n-button type="primary" @click="router.visit(route('admin.routes.create'))">
-        <n-icon :component="Add" />
+        <template #icon>
+          <n-icon :component="CreateOutline" size="20px"/>
+        </template>
         Добавить маршрут
       </n-button>
     </div>

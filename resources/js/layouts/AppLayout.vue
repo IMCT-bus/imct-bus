@@ -29,6 +29,7 @@ const links: DropdownOption[] = [
   {
     label: getLinkNode('admin.routes.index', 'Список маршрутов'),
     key: 'routes',
+    show: page.props.loggedIn
   },
   {
     label: 'Выход',
