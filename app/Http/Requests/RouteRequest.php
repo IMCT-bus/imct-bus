@@ -23,4 +23,11 @@ class RouteRequest extends FormRequest
             'stops.*.position' => ['required', 'integer', 'between:0,255'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'stops.*.link' => 'Поле должно содержать ссылку.',
+        ];
+    }
 }
