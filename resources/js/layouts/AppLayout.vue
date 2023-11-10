@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 
-import { GlobalThemeOverrides, NConfigProvider, NThemeEditor, DropdownOption } from 'naive-ui';
+import { GlobalThemeOverrides, NConfigProvider, DropdownOption, ruRU, dateRuRU } from 'naive-ui';
 
 import { BusSharp, MenuSharp } from '@vicons/ionicons5';
 import { getLinkNode } from '@/utils/link-node';
 import { usePage } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import route from 'ziggy-js';
-import axios from 'axios';
 
 defineProps(['title']);
 
@@ -29,7 +28,7 @@ const links: DropdownOption[] = [
   {
     label: getLinkNode('admin.routes.index', 'Список маршрутов'),
     key: 'routes',
-    show: page.props.loggedIn
+    show: page.props.loggedIn,
   },
   {
     label: 'Выход',
@@ -46,33 +45,31 @@ const links: DropdownOption[] = [
 
 <template>
   <Head :title="title" />
-  <NThemeEditor>
-    <n-config-provider :theme-overrides="themeOverrides" inline-theme-disabled>
-      <n-layout>
-        <n-layout-content class="layout-container">
-          <n-page-header :title="title">
-            <template #avatar>
-              <n-avatar :color="themeOverrides.common?.primaryColor">
-                <n-icon :component="BusSharp" />
-              </n-avatar>
-            </template>
-            <template #extra>
-              <n-space align="center">
-                <n-dropdown :options="links" trigger="click">
-                  <n-button>
-                    <n-icon :component="MenuSharp" size="32px" />
-                  </n-button>
-                </n-dropdown>
-              </n-space>
-            </template>
-          </n-page-header>
-          <main class="main-content">
-            <slot></slot>
-          </main>
-        </n-layout-content>
-      </n-layout>
-    </n-config-provider>
-  </NThemeEditor>
+  <n-config-provider :theme-overrides="themeOverrides" inline-theme-disabled :locale="ruRU" :date-locale="dateRuRU">
+    <n-layout>
+      <n-layout-content class="layout-container">
+        <n-page-header :title="title">
+          <template #avatar>
+            <n-avatar :color="themeOverrides.common?.primaryColor">
+              <n-icon :component="BusSharp" />
+            </n-avatar>
+          </template>
+          <template #extra>
+            <n-space align="center">
+              <n-dropdown :options="links" trigger="click">
+                <n-button>
+                  <n-icon :component="MenuSharp" size="32px" />
+                </n-button>
+              </n-dropdown>
+            </n-space>
+          </template>
+        </n-page-header>
+        <main class="main-content">
+          <slot></slot>
+        </main>
+      </n-layout-content>
+    </n-layout>
+  </n-config-provider>
 </template>
 
 <style scoped lang="scss">
