@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\RouteController;
@@ -29,7 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         Route::get('/logout', LogoutController::class)->name('logout');
         Route::resource('routes', RouteController::class)->except('show');
+        Route::resource('trips', TripController::class);
     });
+    Route::redirect('/', '/admin/trips');
 });
 
 // Route::redirect('/', '/trips');

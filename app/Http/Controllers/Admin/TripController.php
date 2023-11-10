@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\TripRequest;
+use App\Http\Resources\RouteResource;
+use App\Http\Resources\TripResource;
+use App\Models\Route;
+use App\Models\Trip;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
+
+class TripController extends BaseController
+{
+    public function index(): Response
+    {
+        $trips = TripResource::collection(
+            Trip::with('route')->orderByRaw('date ASC, route.starts_at ASC')->get()
+        );
+
+        return inertia('Admin/Trips/Index', ['trips' => $trips]);
+    }
+
+    public function create(): Response
+    {
+        return inertia('Admin/Routes/Create');
+    }
+
+    public function store(TripRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        Trip::create($validated);
+
+        return redirect()->route('admin.trips.index');
+    }
+
+    public function edit(Trip $trip): Response
+    {
+        $routes = RouteResource::collection(
+            Route::with('stops')->orderBy('starts_at')->get()
+        );
+
+        return inertia('Admin/Trips/Edit', [
+            'trip' => new TripResource($trip->load('route')),
+            'routes' => $routes
+        ]);
+    }
+
+    public function update(TripRequest $request, Trip $trip): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $trip->update($validated);
+
+        return redirect()->route('admin.trips.index');
+    }
+
+    public function destroy(Trip $trip): RedirectResponse
+    {
+        $trip->delete();
+
+        return redirect()->route('admin.trips.index');
+    }
+}
