@@ -16,10 +16,20 @@ class TripController extends BaseController
     public function index(): Response
     {
         $trips = TripResource::collection(
-            Trip::with('route')->orderByRaw('date ASC, route.starts_at ASC')->get()
+            Trip::with('route')
+                ->join('routes', 'routes.id', '=', 'trips.route_id')
+                ->orderByRaw('date DESC, routes.starts_at ASC')
+                ->get()
         );
 
         return inertia('Admin/Trips/Index', ['trips' => $trips]);
+    }
+
+    public function show(Trip $trip): Response
+    {
+        return inertia('Admin/Trips/Index', [
+            'trip' => new TripResource($trip->load('route'))
+        ]);
     }
 
     public function create(): Response

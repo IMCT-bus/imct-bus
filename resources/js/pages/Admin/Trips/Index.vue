@@ -1,11 +1,13 @@
 <script setup lang="ts">
-// type IndexProps = {
-// };
-// defineProps<IndexProps>();
+type IndexProps = {
+  trips: any[]
+};
+defineProps<IndexProps>();
 </script>
 
 <template>
   <p>Index trips</p>
+  <pre>{{ $page.props.trips }}</pre>
 </template>
 
 <style lang="scss">
