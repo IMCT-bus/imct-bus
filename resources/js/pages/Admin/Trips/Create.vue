@@ -11,12 +11,11 @@ type CreateTripPageProps = {
 defineProps<CreateTripPageProps>();
 
 const form = useForm<TripFormType>({
-  uuid: '',
   date: Date.now(),
   car_number: '',
   link: '',
   seats: 10,
-  route_id: 0,
+  route_id: null,
   is_published: false,
 });
 

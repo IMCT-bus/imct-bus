@@ -19,12 +19,13 @@ export type TripFormType = Utility.Overwrite<
   {
     date: number;
     uuid?: string;
+    route_id: number | null;
   }
 >;
 
 const props = defineProps<TripFormProps>();
 
-const selectRouteOptions: SelectOption[] = props.routes!.map((route) => ({
+const selectRouteOptions: SelectOption[] = props.routes?.map((route) => ({
   label: `${route.name} (${route.starts_at})`,
   value: route.id,
 }));
@@ -55,13 +56,13 @@ const stops = computed(() => {
       </n-form-item>
     </div>
     <n-form-item label="Маршрут" path="route_id" required :feedback="form.errors.route_id" :validation-status="getErrorStatus(form.errors.route_id)">
-      <n-select v-model:value="foo" :options="selectRouteOptions" />
+      <n-select v-model:value="form.route_id" :options="selectRouteOptions" />
     </n-form-item>
     <FadeTransition>
       <StopsTimeline v-if="stops" :stops="stops" />
     </FadeTransition>
     <n-space align="center" justify="end">
-      <n-switch size="large" :round="false">
+      <n-switch v-model:value="form.is_published" size="large" :round="false">
         <template #checked> Опубликован </template>
         <template #unchecked> Скрыт </template>
       </n-switch>

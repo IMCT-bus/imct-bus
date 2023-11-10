@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\RouteController;
+use App\Http\Resources\RouteResource;
+use App\Models\Route as ModelsRoute;
 use Illuminate\Support\Facades\Route;
 
 /*
