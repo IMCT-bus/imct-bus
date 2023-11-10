@@ -4,4 +4,8 @@ declare namespace Resources {
   };
 
   export type StopResource = Models.Stop & { arrives_at: string | null; position: number };
+
+  export type TripResource = Models.Trip & {
+    route: Resources.RouteResource;
+  };
 }

@@ -11,7 +11,7 @@ class TripResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'date' => $this->date->format('d-m-Y'),
+            'date' => $this->date->format('Y-m-d'),
             'is_published' => $this->is_published,
             'car_number' => $this->car_number,
             'link' => $this->link,
