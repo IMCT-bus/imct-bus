@@ -33,9 +33,9 @@ const selectRouteOptions: SelectOption[] = props.routes?.map((route) => ({
 const foo = ref(null);
 
 const stops = computed(() => {
-  if (!foo.value) return null;
+  if (!props.form.route_id) return null;
 
-  return props.routes?.find((v) => v.id === foo.value)?.stops;
+  return props.routes?.find((v) => v.id === props.form.route_id)?.stops;
 });
 </script>
 

@@ -20,7 +20,7 @@ const form = useForm<TripFormType>({
 });
 
 const onSubmit = () => {
-  // form.post(route('admin.trips.store'), { onSuccess: () => form.reset() });
+  form.post(route('admin.trips.store'), { onSuccess: () => form.reset() });
 };
 </script>
 

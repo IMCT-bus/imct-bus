@@ -8,6 +8,7 @@ use App\Http\Resources\RouteResource;
 use App\Http\Resources\TripResource;
 use App\Models\Route;
 use App\Models\Trip;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 
@@ -34,14 +35,18 @@ class TripController extends BaseController
 
     public function create(): Response
     {
-        return inertia('Admin/Trips/Create');
+        return inertia('Admin/Trips/Create', [
+            'routes' => RouteResource::collection(
+                Route::with('stops')->orderBy('starts_at')->get()
+            )
+        ]);
     }
 
     public function store(TripRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        Trip::create($validated);
+        Trip::create([...$validated, 'date' => Carbon::createFromTimestampMs($validated['date'], 'Australia/Melbourne')]);
 
         return redirect()->route('admin.trips.index');
     }

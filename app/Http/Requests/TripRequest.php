@@ -14,7 +14,7 @@ class TripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date'],
+            'date' => ['required', 'numeric'],
             'route_id' => ['required', 'integer', 'exists:routes,id'],
             'is_published' => ['required', 'boolean'],
             'car_number' => ['nullable', 'string', 'max:10'],
