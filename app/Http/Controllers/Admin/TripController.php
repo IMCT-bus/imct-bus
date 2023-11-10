@@ -34,7 +34,7 @@ class TripController extends BaseController
 
     public function create(): Response
     {
-        return inertia('Admin/Routes/Create');
+        return inertia('Admin/Trips/Create');
     }
 
     public function store(TripRequest $request): RedirectResponse
