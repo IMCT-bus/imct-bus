@@ -31,7 +31,6 @@ defineProps<RoutesIndexProps>();
 .actions {
   @include row;
   justify-content: flex-end;
-
   margin-bottom: 1rem;
 
   @include phone {

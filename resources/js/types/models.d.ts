@@ -3,13 +3,13 @@ declare namespace Models {
     id: number | string;
     name: string;
     link: string | null;
-  }
+  };
 
   export type Route = {
     id: number;
     name: string;
     starts_at: string;
-  }
+  };
 
   export type RouteStop = {
     id: number;
@@ -20,13 +20,15 @@ declare namespace Models {
 
     route?: Models.Route;
     stop?: Models.Stop;
-  }
-}
+  };
 
-declare namespace Resources {
-  export type RouteResource = Models.Route & {
-    stops: Resources.StopResource[];
-  }
-
-  export type StopResource = Models.Stop & {arrives_at: string | null; position: number}
+  export type Trip = {
+    uuid: string;
+    date: string;
+    is_published: boolean;
+    car_number: string;
+    link: string | null;
+    seats: number;
+    route_id: number;
+  };
 }

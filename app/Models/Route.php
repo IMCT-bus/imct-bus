@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property Carbon $starts_at
  *
  * @property Stop[] $stops
+ * @property Trip[] $trips
  */
 class Route extends Model
 {
@@ -31,4 +33,9 @@ class Route extends Model
 		return $this->belongsToMany(Stop::class)
             ->withPivot('arrives_at', 'position');
 	}
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { LocationSharp } from '@vicons/ionicons5';
+import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 
 type RouteListItemProps = {
   routeItem: Resources.RouteResource;
@@ -25,17 +24,7 @@ defineProps<RouteListItemProps>();
       </template>
       <n-collapse>
         <n-collapse-item title="Полный маршрут" name="1">
-          <n-timeline>
-            <n-timeline-item v-for="stop in routeItem.stops" :content="stop.arrives_at ?? ''">
-              <template #header>
-                <n-space align="start" class="stop-link-container">
-                  <n-icon :component="LocationSharp" color="#0168F9" size="16px" v-if="stop.link" />
-                  <a v-if="stop.link" :href="stop.link" target="_blank" class="stop-link">{{ stop.name }}</a>
-                  <span v-else class="stop-link">{{ stop.name }}</span>
-                </n-space>
-              </template>
-            </n-timeline-item>
-          </n-timeline>
+            <StopsTimeline v-if="routeItem.stops" :stops="routeItem.stops" />
         </n-collapse-item>
       </n-collapse>
     </n-thing>
@@ -51,10 +40,5 @@ defineProps<RouteListItemProps>();
       flex-grow: 1;
     }
   }
-}
-.stop-link {
-  font-weight: 400;
-  font-size: 1rem;
-  color: currentColor;
 }
 </style>
