@@ -35,4 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::redirect('/', '/admin/trips');
 });
 
+Route::get('/admin/passengers', fn() => inertia('Admin/Passengers/Index'));
+
 // Route::redirect('/', '/trips');
