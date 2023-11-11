@@ -31,4 +31,11 @@ declare namespace Models {
     seats: number;
     route_id: number;
   };
+
+  export type Passenger = {
+    id: number;
+    full_name: string;
+    pass: string;
+    telegram?: string;
+  }
 }

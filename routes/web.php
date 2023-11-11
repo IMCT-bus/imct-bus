@@ -45,5 +45,4 @@ Route::get('/trips', fn () => inertia('Trips/Index', [
             ->get()
     )
 ]));
-
 // Route::redirect('/', '/trips');
