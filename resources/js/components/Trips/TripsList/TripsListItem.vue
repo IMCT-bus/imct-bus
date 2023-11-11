@@ -2,6 +2,10 @@
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
+import { CheckmarkCircleOutline, EyeOff, LinkOutline } from '@vicons/ionicons5';
+
+import CarNumber from '@/components/ui/CarNumber.vue';
+
 type TripsListItemProps = {
   trip: Resources.TripResource;
   onEdit: (uuid: string) => void;
@@ -14,13 +18,28 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
 
 <template>
   <n-list-item>
-    <n-thing>
+    <n-thing class="trip-item">
       <template #header class="header">
         <span>{{ trip.route.name }} </span>
         <span class="date"> ({{ trip.route.starts_at }})</span>
       </template>
       <template #description>
+        <n-space align="center" v-if="trip.is_published">
+          <n-icon :component="CheckmarkCircleOutline" size="20px" color="green" />
+          <span>Опубликован</span>
+        </n-space>
+        <n-space align="center" v-else>
+          <n-icon :component="EyeOff" size="20px" />
+          <span>Скрыт</span>
+        </n-space>
         <span class="date">{{ date }}</span>
+        <CarNumber v-if="trip.car_number" :car-number="trip.car_number" />
+        <p v-else>Гос. номер появится позже</p>
+        <n-space v-if="trip.link" align="center">
+          <n-icon :component="LinkOutline" size="20px" />
+          <n-el tag="a" :href="trip.link" target="_blank" :style="{ color: 'var(--info-color)' }"> Локатор </n-el>
+        </n-space>
+        <p v-else>Ссылка на локатор появится позже</p>
       </template>
       <template #action>
         <div class="actions">
@@ -33,6 +52,11 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
 </template>
 
 <style scoped lang="scss">
+.trip-item {
+  * {
+    margin-block: 0.5rem;
+  }
+}
 .actions {
   @include row;
   justify-content: flex-end;
