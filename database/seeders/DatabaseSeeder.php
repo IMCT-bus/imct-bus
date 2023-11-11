@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             StopSeeder::class,
             RouteSeeder::class,
             TripSeeder::class,
+            PassengerSeeder::class,
         ]);
     }
 }

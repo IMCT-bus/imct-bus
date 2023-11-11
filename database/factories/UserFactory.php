@@ -13,7 +13,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'login' => fake('en_US')->name(),
+            'login' => fake()->userName(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
