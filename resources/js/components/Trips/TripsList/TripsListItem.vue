@@ -4,8 +4,8 @@ import { ru } from 'date-fns/locale';
 
 type TripsListItemProps = {
   trip: Resources.TripResource;
-  onEdit: (...args: any[]) => void;
-  onDelete: (...args: any[]) => void;
+  onEdit: (uuid: string) => void;
+  onDelete: (uuid: string) => void;
 };
 
 const props = defineProps<TripsListItemProps>();
@@ -24,8 +24,8 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
       </template>
       <template #action>
         <div class="actions">
-          <n-button size="small" ghost type="info">Редактировать</n-button>
-          <n-button size="small">Удалить</n-button>
+          <n-button size="small" ghost type="info" @click="onEdit(trip.uuid)">Редактировать</n-button>
+          <n-button size="small" @click="onDelete(trip.uuid)">Удалить</n-button>
         </div>
       </template>
     </n-thing>

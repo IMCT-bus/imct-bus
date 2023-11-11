@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
+import route from 'ziggy-js';
+
 import TripsListItem from './TripsListItem.vue';
 
 type TripsListProps = {
@@ -7,12 +10,12 @@ type TripsListProps = {
 
 defineProps<TripsListProps>();
 
-function onEditClick() {
-  console.log();
+function onEditClick(uuid: string) {
+  router.visit(route('admin.trips.edit', uuid));
 }
 
-function onDeleteClick() {
-  console.log();
+function onDeleteClick(uuid: string) {
+  router.delete(route('admin.trips.destroy', uuid));
 }
 </script>
 

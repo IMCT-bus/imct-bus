@@ -67,7 +67,7 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        $trip->update($validated);
+        $trip->update([...$validated, 'date' => Carbon::createFromTimestampMs($validated['date'], 'Australia/Melbourne')]);
 
         return redirect()->route('admin.trips.index');
     }

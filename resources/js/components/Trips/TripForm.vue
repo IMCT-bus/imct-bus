@@ -7,6 +7,7 @@ import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import FadeTransition from '@/components/shared/FadeTransition.vue';
 
 import { getErrorStatus } from '@/utils/validation';
+import { sub } from 'date-fns';
 
 type TripFormProps = {
   routes: Resources.RouteResource[];
@@ -30,20 +31,22 @@ const selectRouteOptions: SelectOption[] = props.routes?.map((route) => ({
   value: route.id,
 }));
 
-const foo = ref(null);
-
 const stops = computed(() => {
   if (!props.form.route_id) return null;
 
   return props.routes?.find((v) => v.id === props.form.route_id)?.stops;
 });
+
+function disablePreviousDate(timestamp: number) {
+  return timestamp < sub(Date.now(), { days: 1 }).getTime();
+}
 </script>
 
 <template>
   <n-form @submit.prevent="onSubmit" :model="form">
     <div class="grid-container">
       <n-form-item label="Дата" required :feedback="form.errors.date" :validation-status="getErrorStatus(form.errors.date)">
-        <n-date-picker v-model:value="form.date" format="PPP" type="date" clearable :actions="null" />
+        <n-date-picker v-model:value="form.date" format="PPP" :is-date-disabled="disablePreviousDate" type="date" clearable :actions="null" />
       </n-form-item>
       <n-form-item label="Гос. номер" :feedback="form.errors.car_number" :validation-status="getErrorStatus(form.errors.car_number)">
         <n-input v-model:value="form.car_number" placeholder="В 232 ИН" />
