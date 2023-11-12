@@ -66,13 +66,26 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
     <n-form>
       <div class="container">
         <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
-          <n-input v-model:value="form.full_name" placeholder="Иванов И.И." autofocus />
+          <n-input
+            v-model:value="form.full_name"
+            placeholder="Иванов И.И."
+            autofocus
+            :input-props="{
+              autocomplete: 'name',
+            }"
+          />
         </n-form-item>
         <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)">
           <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
         </n-form-item>
         <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
-          <n-input v-model:value="form.telegram" placeholder="imctbus">
+          <n-input
+            v-model:value="form.telegram"
+            placeholder="imctbus"
+            :input-props="{
+              autocomplete: 'username',
+            }"
+          >
             <template #prefix>
               <n-icon :component="AtSharp" />
             </template>
