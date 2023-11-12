@@ -64,8 +64,5 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
   gap: 1rem;
   margin-top: 1rem;
 }
-.date {
-  font-weight: 500;
-  font-size: 1rem;
-}
+
 </style>

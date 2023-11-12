@@ -12,6 +12,7 @@ class StopResource extends JsonResource
     {
         $arrives_at = $this->pivot->arrives_at ? Carbon::parse($this->pivot->arrives_at)->format('H:i') : "";
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'link' => $this->link,
             'arrives_at' => $arrives_at,

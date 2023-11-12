@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\PassengerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\RouteController;
+use App\Http\Resources\TripResource;
+use App\Models\Trip;
 use Illuminate\Support\Facades\Route;
 
 /*
