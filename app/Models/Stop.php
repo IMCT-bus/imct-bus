@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -29,4 +30,9 @@ class Stop extends Model
 		return $this->belongsToMany(Route::class)
             ->withPivot('arrives_at', 'position');
 	}
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
+    }
 }
