@@ -37,10 +37,15 @@ class TripController extends BaseController
         return redirect()->route('trips.index');
     }
 
-    public function showCancel(Trip $trip): Response
+    public function showCancel(): Response
     {
         return inertia('Trips/Cancel', [
-            'trip' => new TripResource($trip->load('route'))
+            'trips' => TripResource::collection(Trip::with('route')
+                ->published()
+                ->todayAndLater()
+                ->join('routes', 'routes.id', '=', 'trips.route_id')
+                ->orderByRaw('date DESC, routes.starts_at ASC')
+                ->get())
         ]);
     }
 

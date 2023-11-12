@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-
 import { CheckmarkCircleOutline, EyeOff, LinkOutline } from '@vicons/ionicons5';
 
 import CarNumber from '@/components/ui/CarNumber.vue';
+
+import { formatDateLong } from '@/utils/lib';
 
 type TripsListItemProps = {
   trip: Resources.TripResource;
@@ -12,7 +11,7 @@ type TripsListItemProps = {
 };
 
 const props = defineProps<TripsListItemProps>();
-const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
+const date = formatDateLong(props.trip.date);
 </script>
 
 <template>
@@ -64,5 +63,4 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
   gap: 1rem;
   margin-top: 1rem;
 }
-
 </style>

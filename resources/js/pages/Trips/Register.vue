@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { AtSharp } from '@vicons/ionicons5';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { SelectOption } from 'naive-ui';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import StopsTimeline from '@/components/shared/StopsTimeline.vue';
-import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { getErrorStatus } from '@/utils/validation';
+import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
+
+import { AtSharp } from '@vicons/ionicons5';
+import { SelectOption } from 'naive-ui';
+
+import AppLayout from '@/layouts/AppLayout.vue';
+import StopsTimeline from '@/components/shared/StopsTimeline.vue';
+
+import { getErrorStatus } from '@/utils/validation';
+import { formatDateLong } from '@/utils/lib';
 
 type TripRegisterProps = {
   trip: Resources.TripResource;
@@ -47,7 +49,7 @@ const selectStopOptions: SelectOption[] = props.trip.route.stops
     value: stop.id,
   }));
 
-const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
+const date = formatDateLong(props.trip.date);
 </script>
 
 <template>
@@ -63,9 +65,9 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
       <StopsTimeline :stops="trip.route.stops" />
       <n-divider />
     </n-thing>
-    <n-form>
+    <n-form @submit.prevent="onSubmit">
       <div class="container">
-        <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
+        <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)" required>
           <n-input
             v-model:value="form.full_name"
             placeholder="Иванов И.И."
@@ -75,10 +77,10 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
             }"
           />
         </n-form-item>
-        <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)">
+        <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
           <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
         </n-form-item>
-        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
+        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)" required>
           <n-input
             v-model:value="form.telegram"
             placeholder="imctbus"
@@ -91,7 +93,7 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
             </template>
           </n-input>
         </n-form-item>
-        <n-form-item label="Остановка" :feedback="form.errors.stop_id" :validation-status="getErrorStatus(form.errors.stop_id)">
+        <n-form-item label="Остановка" :feedback="form.errors.stop_id" :validation-status="getErrorStatus(form.errors.stop_id)" required>
           <n-select v-model:value="form.stop_id" :options="selectStopOptions" />
         </n-form-item>
       </div>
@@ -100,7 +102,7 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
         <n-form-item :show-label="false" :feedback="form.errors.over_18" :validation-status="getErrorStatus(form.errors.over_18)">
           <n-checkbox v-model:checked="form.over_18"> Подтверждаю, что мне есть 18 лет</n-checkbox>
         </n-form-item>
-        <n-button :disabled="!formIsValid" type="primary">Зарегистрироваться</n-button>
+        <n-button :disabled="!formIsValid" type="primary" attr-type="submit">Зарегистрироваться</n-button>
       </div>
     </n-form>
   </AppLayout>
