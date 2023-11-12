@@ -46,7 +46,7 @@ function getTripsGroup(): void
         Route::get('/', [\App\Http\Controllers\TripController::class, 'index'])->name('index');
         Route::get('/{trip}/register', [\App\Http\Controllers\TripController::class, 'showRegister'])->name('showRegister');
         Route::post('/{trip}/register', [\App\Http\Controllers\TripController::class, 'register'])->name('register');
-        Route::get('/{trip}/cancell', [\App\Http\Controllers\TripController::class, 'showCancell'])->name('showCancell');
-        Route::post('/{trip}/cancell', [\App\Http\Controllers\TripController::class, 'cancell'])->name('cancell');
+        Route::get('/{trip}/cancel', [\App\Http\Controllers\TripController::class, 'showCancel'])->name('showCancel');
+        Route::post('/{trip}/cancel', [\App\Http\Controllers\TripController::class, 'cancel'])->name('cancel');
     });
 }

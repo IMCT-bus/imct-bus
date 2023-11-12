@@ -37,14 +37,14 @@ class TripController extends BaseController
         return redirect()->route('trips.index');
     }
 
-    public function showCancell(Trip $trip): Response
+    public function showCancel(Trip $trip): Response
     {
-        return inertia('Trips/Cancell', [
+        return inertia('Trips/Cancel', [
             'trip' => new TripResource($trip->load('route'))
         ]);
     }
 
-    public function cancell(): RedirectResponse
+    public function cancel(): RedirectResponse
     {
         //TODO: отмена регистрации
 
