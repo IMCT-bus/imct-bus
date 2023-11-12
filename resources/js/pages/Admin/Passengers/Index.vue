@@ -34,7 +34,7 @@ function onDeleteClick(id: number) {
     <n-form @submit.prevent="onSubmit">
       <div class="container">
         <n-form-item label="Номер пропуска" required :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)">
-          <n-input v-model:value="form.pass" inputmode="numeric" placeholder="5432" />
+          <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="5432" />
         </n-form-item>
         <n-form-item label="ФИО" required :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
           <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
@@ -70,17 +70,13 @@ function onDeleteClick(id: number) {
   padding: 12px 12px !important;
 }
 .container {
-  @include row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) 250px;
   align-items: center;
   column-gap: 1rem;
 
-  * {
-    flex-grow: 1;
-  }
-
   @include phone {
-    align-items: stretch;
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
 </style>
