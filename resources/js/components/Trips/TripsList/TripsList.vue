@@ -9,6 +9,10 @@ type TripsListProps = {
 };
 
 defineProps<TripsListProps>();
+
+function onRegisterClick(uuid: string) {
+  router.visit(route('trips.showRegister', uuid));
+}
 </script>
 
 <template>
@@ -20,7 +24,7 @@ defineProps<TripsListProps>();
         </n-collapse-item>
       </n-collapse>
       <template #actions>
-        <n-button type="primary">Зарегистрироваться</n-button>
+        <n-button type="primary" @click="onRegisterClick(trip.uuid)">Зарегистрироваться</n-button>
       </template>
     </TripsListItem>
   </n-list>

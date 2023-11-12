@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\PassengerController;
-use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\RouteController;
@@ -23,6 +22,7 @@ Route::middleware('guest')->group(function () {
         Route::get('/login', [LoginController::class, 'index'])->name('login.index');
         Route::post('/login', [LoginController::class, 'store'])->name('login.store');
     });
+    getTripsGroup();
 });
 
 Route::middleware('auth')->group(function () {
@@ -30,11 +30,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/logout', LogoutController::class)->name('logout');
         Route::resource('routes', RouteController::class)
             ->except('show');
-        Route::resource('trips', TripController::class);
+        Route::resource('trips', \App\Http\Controllers\Admin\TripController::class);
         Route::resource('passengers', PassengerController::class)
             ->only('index', 'store', 'destroy');
     });
+    getTripsGroup();
     Route::redirect('/', '/admin/trips');
 });
 
-// Route::redirect('/', '/trips');
+function getTripsGroup(): void
+{
+    Route::group(['prefix' => 'trips', 'as' => 'trips.'], static function () {
+        Route::get('/', [\App\Http\Controllers\TripController::class, 'index'])->name('index');
+        Route::get('/{trip}/register', [\App\Http\Controllers\TripController::class, 'showRegister'])->name('showRegister');
+        Route::post('/{trip}/register', [\App\Http\Controllers\TripController::class, 'register'])->name('register');
+        Route::get('/{trip}/cancell', [\App\Http\Controllers\TripController::class, 'showCancell'])->name('showCancell');
+        Route::post('/{trip}/cancell', [\App\Http\Controllers\TripController::class, 'cancell'])->name('cancell');
+    });
+}

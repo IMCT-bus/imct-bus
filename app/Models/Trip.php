@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Traits\UsesUuid;
 use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,4 +50,16 @@ class Trip extends Model
     {
         return $this->belongsTo(Route::class);
 	}
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true);
+    }
+
+    public function scopeTodayAndLater(Builder $query): Builder
+    {
+        $today = new DateTime('now', new DateTimeZone('Asia/Vladivostok'));
+
+        return $query->whereDate('date', '>=', $today);
+    }
 }
