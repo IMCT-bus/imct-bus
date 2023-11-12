@@ -8,8 +8,7 @@ import CarNumber from '@/components/ui/CarNumber.vue';
 
 type TripsListItemProps = {
   trip: Resources.TripResource;
-  onEdit: (uuid: string) => void;
-  onDelete: (uuid: string) => void;
+  type: 'passenger' | 'admin';
 };
 
 const props = defineProps<TripsListItemProps>();
@@ -24,14 +23,16 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
         <span class="date"> ({{ trip.route.starts_at }})</span>
       </template>
       <template #description>
-        <n-space align="center" v-if="trip.is_published">
-          <n-icon :component="CheckmarkCircleOutline" size="20px" color="green" />
-          <span>Опубликован</span>
-        </n-space>
-        <n-space align="center" v-else>
-          <n-icon :component="EyeOff" size="20px" />
-          <span>Скрыт</span>
-        </n-space>
+        <template v-if="type === 'admin'">
+          <n-space align="center" v-if="trip.is_published">
+            <n-icon :component="CheckmarkCircleOutline" size="20px" color="green" />
+            <span>Опубликован</span>
+          </n-space>
+          <n-space align="center" v-else>
+            <n-icon :component="EyeOff" size="20px" />
+            <span>Скрыт</span>
+          </n-space>
+        </template>
         <span class="date">{{ date }}</span>
         <CarNumber v-if="trip.car_number" :car-number="trip.car_number" />
         <p v-else>Гос. номер появится позже</p>
@@ -41,10 +42,10 @@ const date = format(new Date(props.trip.date), 'EEEE, d MMMM', { locale: ru });
         </n-space>
         <p v-else>Ссылка на локатор появится позже</p>
       </template>
+      <slot name="default"></slot>
       <template #action>
         <div class="actions">
-          <n-button size="small" ghost type="info" @click="onEdit(trip.uuid)">Редактировать</n-button>
-          <n-button size="small" @click="onDelete(trip.uuid)">Удалить</n-button>
+          <slot name="actions"></slot>
         </div>
       </template>
     </n-thing>

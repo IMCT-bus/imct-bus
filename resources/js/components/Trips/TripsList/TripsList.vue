@@ -21,7 +21,12 @@ function onDeleteClick(uuid: string) {
 
 <template>
   <n-list>
-    <TripsListItem v-for="trip in trips" :key="trip.uuid" :trip="trip" :on-edit="onEditClick" :on-delete="onDeleteClick" />
+    <TripsListItem v-for="trip in trips" :key="trip.uuid" :trip="trip" type="admin">
+      <template #actions>
+        <n-button size="small" ghost type="info" @click="onEditClick(trip.uuid)">Редактировать</n-button>
+        <n-button size="small" @click="onDeleteClick(trip.uuid)">Удалить</n-button>
+      </template>
+    </TripsListItem>
   </n-list>
 </template>
 
