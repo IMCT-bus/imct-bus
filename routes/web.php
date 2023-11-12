@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\PassengerController;
 use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\RouteController;
-use App\Http\Resources\RouteResource;
-use App\Models\Route as ModelsRoute;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,12 +28,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         Route::get('/logout', LogoutController::class)->name('logout');
-        Route::resource('routes', RouteController::class)->except('show');
+        Route::resource('routes', RouteController::class)
+            ->except('show');
         Route::resource('trips', TripController::class);
+        Route::resource('passengers', PassengerController::class)
+            ->only('index', 'store', 'destroy');
     });
     Route::redirect('/', '/admin/trips');
 });
-
-Route::get('/admin/passengers', fn() => inertia('Admin/Passengers/Index'));
 
 // Route::redirect('/', '/trips');

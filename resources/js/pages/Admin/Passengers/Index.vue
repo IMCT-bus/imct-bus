@@ -19,13 +19,13 @@ const form = useForm({
 });
 
 function onSubmit() {
-  // form.post(route('admin.passengers.create'), {
-  //   onSuccess: () => form.reset(),
-  // });
+  form.post(route('admin.passengers.store'), {
+    onSuccess: () => form.reset(),
+  });
 }
 
 function onDeleteClick(id: number) {
-  // router.delete(route('admin.passengers.destroy', id))
+  router.delete(route('admin.passengers.destroy', id))
 }
 </script>
 
@@ -37,7 +37,7 @@ function onDeleteClick(id: number) {
           <n-input v-model:value="form.pass" inputmode="numeric" placeholder="5432" />
         </n-form-item>
         <n-form-item label="ФИО" required :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
-          <n-input placeholder="Гордеев А.К." />
+          <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
         </n-form-item>
         <div>
           <n-button type="primary" attr-type="submit" class="add-button" :disabled="form.processing">Добавить</n-button>
