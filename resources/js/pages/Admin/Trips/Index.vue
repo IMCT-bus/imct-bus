@@ -4,7 +4,7 @@ import route from 'ziggy-js';
 import { CreateOutline } from '@vicons/ionicons5';
 
 import AppLayout from '@/layouts/AppLayout.vue';
-import TripsList from '@/components/Trips/TripsList/TripsList.vue';
+import AdminTripsList from '@/components/Trips/TripsList/AdminTripsList.vue';
 
 type IndexProps = {
   trips: Resources.TripResource[];
@@ -22,7 +22,7 @@ defineProps<IndexProps>();
         Добавить рейс
       </n-button>
     </div>
-    <TripsList :trips="trips" />
+    <AdminTripsList :trips="trips" />
   </AppLayout>
 </template>
 
