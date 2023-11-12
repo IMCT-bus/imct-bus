@@ -8,7 +8,6 @@ import AppLayout from '@/layouts/AppLayout.vue';
 
 import { formatDateShort } from '@/utils/lib';
 import { getErrorStatus } from '@/utils/validation';
-import { renderLabel } from '@/components/ui/renderSelectLabel';
 
 type CancelRegisterPageProps = {
   trips: Resources.TripResource[];
@@ -37,8 +36,7 @@ const formIsValid = computed(() => {
 });
 
 const tripSelectOptions = props.trips.map((trip) => ({
-  date: `${formatDateShort(trip.date)} (${trip.route.starts_at})`,
-  details: trip.route.name,
+  label: `${formatDateShort(trip.date)}, ${trip.route.starts_at}, ${trip.route.name}`,
   value: trip.uuid,
 }));
 </script>
@@ -54,7 +52,7 @@ const tripSelectOptions = props.trips.map((trip) => ({
           <n-input v-model:value="form.pass" placeholder="5173" maxlength="4" inputmode="numeric" />
         </n-form-item>
         <n-form-item label="Рейс" :feedback="form.errors.trip_uuid" :validation-status="getErrorStatus(form.errors.trip_uuid)" required>
-          <n-select v-model:value="form.trip_uuid" :options="tripSelectOptions" :render-label="renderLabel" />
+          <n-select v-model:value="form.trip_uuid" :options="tripSelectOptions" />
         </n-form-item>
       </div>
       <div class="actions">
