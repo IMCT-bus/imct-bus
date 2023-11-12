@@ -39,7 +39,7 @@ function onSubmit() {
 }
 
 const formIsValid = computed(() => {
-  return form.full_name.length > 6 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
+  return form.full_name.length > 4 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
 });
 
 const selectStopOptions: SelectOption[] = props.trip.route.stops
