@@ -36,6 +36,11 @@ const links: DropdownOption[] = [
     show: page.props.loggedIn,
   },
   {
+    label: getLinkNode('admin.passengers.index', 'Управление пропусками'),
+    key: 'passengers',
+    show: page.props.loggedIn
+  },
+  {
     label: 'Выход',
     props: {
       onClick: () => router.visit(route('admin.logout')),
