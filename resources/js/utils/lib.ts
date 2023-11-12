@@ -10,5 +10,5 @@ export function formatDateLong(date: string) {
 }
 
 export function formatDateShort(date: string) {
-  return format(new Date(date), 'E, d.MM', {locale: ru})
+  return format(new Date(date), 'd.MM', {locale: ru})
 }

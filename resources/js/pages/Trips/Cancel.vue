@@ -4,12 +4,11 @@ import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
-import { SelectOption } from 'naive-ui';
-
 import AppLayout from '@/layouts/AppLayout.vue';
 
 import { formatDateShort } from '@/utils/lib';
 import { getErrorStatus } from '@/utils/validation';
+import { renderLabel } from '@/components/ui/renderSelectLabel';
 
 type CancelRegisterPageProps = {
   trips: Resources.TripResource[];
@@ -37,8 +36,9 @@ const formIsValid = computed(() => {
   return form.full_name.length > 5 && form.pass.length === 4 && form.trip_uuid;
 });
 
-const tripSelectOptions: SelectOption[] = props.trips.map((trip) => ({
-  label: `${formatDateShort(trip.date)} — ${trip.route.name} — ${trip.route.starts_at}`,
+const tripSelectOptions = props.trips.map((trip) => ({
+  date: `${formatDateShort(trip.date)} (${trip.route.starts_at})`,
+  details: trip.route.name,
   value: trip.uuid,
 }));
 </script>
@@ -54,7 +54,7 @@ const tripSelectOptions: SelectOption[] = props.trips.map((trip) => ({
           <n-input v-model:value="form.pass" placeholder="5173" maxlength="4" inputmode="numeric" />
         </n-form-item>
         <n-form-item label="Рейс" :feedback="form.errors.trip_uuid" :validation-status="getErrorStatus(form.errors.trip_uuid)" required>
-          <n-select v-model:value="form.trip_uuid" :options="tripSelectOptions" />
+          <n-select v-model:value="form.trip_uuid" :options="tripSelectOptions" :render-label="renderLabel" />
         </n-form-item>
       </div>
       <div class="actions">

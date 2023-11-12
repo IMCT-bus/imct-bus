@@ -26,6 +26,10 @@ const page = usePage();
 
 const links: DropdownOption[] = [
   {
+    label: getLinkNode('trips.index', 'Список рейсов'),
+    key: 'index-trips',
+  },
+  {
     label: getLinkNode('admin.trips.index', 'Список рейсов (Админ)'),
     key: 'trips',
     show: page.props.loggedIn,
@@ -38,7 +42,11 @@ const links: DropdownOption[] = [
   {
     label: getLinkNode('admin.passengers.index', 'Управление пропусками'),
     key: 'passengers',
-    show: page.props.loggedIn
+    show: page.props.loggedIn,
+  },
+  {
+    label: getLinkNode('trips.showCancel', 'Отмена регистрации'),
+    key: 'cancel',
   },
   {
     label: 'Выход',

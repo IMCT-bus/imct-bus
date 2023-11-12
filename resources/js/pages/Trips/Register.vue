@@ -35,11 +35,11 @@ const form = useForm<TripRegisterForm>({
 });
 
 function onSubmit() {
-  // form.post(route('trips.register'));
+  form.post(route('trips.register'));
 }
 
 const formIsValid = computed(() => {
-  return form.full_name.length > 6 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
+  return form.full_name.length > 6 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
 });
 
 const selectStopOptions: SelectOption[] = props.trip.route.stops
@@ -80,10 +80,10 @@ const date = formatDateLong(props.trip.date);
         <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
           <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
         </n-form-item>
-        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)" required>
+        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input
             v-model:value="form.telegram"
-            placeholder="imctbus"
+            placeholder="username"
             :input-props="{
               autocomplete: 'username',
             }"
@@ -120,6 +120,7 @@ const date = formatDateLong(props.trip.date);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 1rem;
+
   @include phone {
     grid-template-columns: 1fr;
   }
@@ -129,5 +130,9 @@ const date = formatDateLong(props.trip.date);
   @include row;
   justify-content: space-between;
   margin-bottom: 4rem;
+
+  @include phone {
+    flex-direction: column;
+  }
 }
 </style>
