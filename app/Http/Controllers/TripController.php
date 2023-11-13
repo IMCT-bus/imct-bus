@@ -7,8 +7,6 @@ use App\Http\Resources\TripResource;
 use App\Models\Passenger;
 use App\Models\Registration;
 use App\Models\Trip;
-use DateTime;
-use DateTimeZone;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +14,6 @@ use Inertia\Response;
 
 class TripController extends BaseController
 {
-    public const TIMEZONE = 'Asia/Vladivostok';
-
     public function index(): Response
     {
         $trips = TripResource::collection(
@@ -52,8 +48,7 @@ class TripController extends BaseController
 
         if (is_null($passenger)) {
             return back()->withErrors(['wrongPassengerDataError' => 'Неверное ФИО или номер пропуска.']);
-        }
-        else {
+        } else {
             $passenger->update([
                 'telegram' => $validated['telegram']
             ]);
@@ -82,8 +77,6 @@ class TripController extends BaseController
                 'passenger_id' => $passenger->id,
                 'trip_uuid' => $trip->uuid,
                 'stop_id' => $validated['stop_id'],
-                'created_at' => new DateTime('now', new DateTimeZone(self::TIMEZONE)),
-                'updated_at' => new DateTime('now', new DateTimeZone(self::TIMEZONE)),
             ]);
 
             DB::commit();
@@ -98,12 +91,14 @@ class TripController extends BaseController
     public function showCancel(): Response
     {
         return inertia('Trips/Cancel', [
-            'trips' => TripResource::collection(Trip::with('route')
+            'trips' => TripResource::collection(
+                Trip::with('route')
                 ->published()
                 ->todayAndLater()
                 ->join('routes', 'routes.id', '=', 'trips.route_id')
                 ->orderByRaw('date DESC, routes.starts_at ASC')
-                ->get())
+                ->get()
+            )
         ]);
     }
 

@@ -14,8 +14,6 @@ use Inertia\Response;
 
 class TripController extends BaseController
 {
-     public const TIMEZONE = 'Asia/Vladivostok';
-
     public function index(): Response
     {
         $trips = TripResource::collection(
@@ -49,7 +47,7 @@ class TripController extends BaseController
         $validated = $request->validated();
 
         Trip::create([...$validated,
-            'date' => Carbon::createFromTimestampMs($validated['date'], self::TIMEZONE)
+            'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
         return redirect()->route('admin.trips.index');
@@ -72,7 +70,7 @@ class TripController extends BaseController
         $validated = $request->validated();
 
         $trip->update([...$validated,
-            'date' => Carbon::createFromTimestampMs($validated['date'], self::TIMEZONE)
+            'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
         return redirect()->route('admin.trips.index');

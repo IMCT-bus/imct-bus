@@ -11,21 +11,18 @@ use Illuminate\Support\Facades\Schema;
 
 class TripSeeder extends Seeder
 {
-    private const TIMEZONE = 'Asia/Vladivostok';
-
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
 
         Trip::truncate();
 
-        $timezone = new DateTimeZone(self::TIMEZONE);
-        $date = new DateTime('-2 days', $timezone);
+        $date = new DateTime('-2 days');
         $isPublished = true;
         $routeIds = array_column(RouteFactory::ROUTES, 'id');
 
         for ($i = 0; $i < 5; $i++) {
-            if ($date->format('Y-m-d') == (new DateTime('+1 day', $timezone))->format('Y-m-d')) {
+            if ($date->format('Y-m-d') == (new DateTime('+1 day'))->format('Y-m-d')) {
                 $isPublished = false;
             }
 
