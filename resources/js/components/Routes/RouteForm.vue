@@ -61,7 +61,6 @@ const arrivesAtRule: FormItemRule = {
 </script>
 
 <template>
-  <n-card>
     <n-form :model="form" @submit.prevent="onSubmit">
       <n-form-item
         label="Название маршрута"
@@ -130,7 +129,6 @@ const arrivesAtRule: FormItemRule = {
         <n-button type="primary" attr-type="submit"> Сохранить </n-button>
       </div>
     </n-form>
-  </n-card>
 </template>
 
 <style scoped lang="scss">

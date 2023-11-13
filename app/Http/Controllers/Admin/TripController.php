@@ -17,10 +17,7 @@ class TripController extends BaseController
     public function index(): Response
     {
         $trips = TripResource::collection(
-            Trip::with('route')
-                ->join('routes', 'routes.id', '=', 'trips.route_id')
-                ->orderByRaw('date DESC, routes.starts_at ASC')
-                ->get()
+            Trip::with('route')->orderByStartsAt()->get()
         );
 
         return inertia('Admin/Trips/Index', ['trips' => $trips]);
@@ -46,7 +43,9 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        Trip::create([...$validated, 'date' => Carbon::createFromTimestampMs($validated['date'], 'Australia/Melbourne')]);
+        Trip::create([...$validated,
+            'date' => Carbon::createFromTimestampMs($validated['date'])
+        ]);
 
         return redirect()->route('admin.trips.index');
     }
@@ -67,7 +66,9 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        $trip->update([...$validated, 'date' => Carbon::createFromTimestampMs($validated['date'], 'Australia/Melbourne')]);
+        $trip->update([...$validated,
+            'date' => Carbon::createFromTimestampMs($validated['date'])
+        ]);
 
         return redirect()->route('admin.trips.index');
     }

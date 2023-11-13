@@ -11,11 +11,12 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import InertiaLinks from './plugins/inertia-links';
+import { NDialogProvider, NMessageProvider } from 'naive-ui';
 
 createInertiaApp({
   resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob('./pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
-    return createApp({ render: () => h(App, props) })
+    return createApp({ render: () => h(NMessageProvider, { placement: 'bottom-right' }, () => h(NDialogProvider, () => h(App, props))) })
       .use(plugin)
       .use(InertiaLinks)
       .use(ZiggyVue, Ziggy)

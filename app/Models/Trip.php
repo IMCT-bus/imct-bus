@@ -4,9 +4,13 @@ namespace App\Models;
 
 use App\Traits\UsesUuid;
 use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $uuid
@@ -18,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $seats
  *
  * @property Route $route
+ * @property Registration[] $registrations
  */
 class Trip extends Model
 {
@@ -47,4 +52,27 @@ class Trip extends Model
     {
         return $this->belongsTo(Route::class);
 	}
+
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true);
+    }
+
+    public function scopeTodayAndLater(Builder $query): Builder
+    {
+        $today = new DateTime('now', new DateTimeZone('Asia/Vladivostok'));
+
+        return $query->whereDate('date', '>=', $today);
+    }
+
+    public function scopeOrderByStartsAt(Builder $query): Builder
+    {
+        return $query->join('routes', 'routes.id', '=', 'trips.route_id')
+            ->orderByRaw('date DESC, routes.starts_at ASC');
+    }
 }
