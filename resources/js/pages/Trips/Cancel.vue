@@ -51,7 +51,12 @@ const tripSelectOptions = props.trips.map((trip) => ({
         <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
           <n-input v-model:value="form.pass" placeholder="5173" maxlength="4" inputmode="numeric" />
         </n-form-item>
-        <n-form-item label="Рейс" :feedback="form.errors.trip_uuid" :validation-status="getErrorStatus(form.errors.trip_uuid)" required>
+        <n-form-item
+          label="Рейс"
+          :feedback="form.errors.trip_uuid || $page.props.errors.wrongRegistrationDataError"
+          :validation-status="getErrorStatus(form.errors.trip_uuid || $page.props.errors.wrongRegistrationDataError)"
+          required
+        >
           <n-select v-model:value="form.trip_uuid" :options="tripSelectOptions" />
         </n-form-item>
       </div>
