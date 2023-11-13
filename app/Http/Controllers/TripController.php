@@ -45,7 +45,6 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        //TODO: telegram
         $passenger = Passenger::query()
             ->where('pass', $validated['pass'])
             ->where('full_name', $validated['full_name'])
@@ -53,6 +52,11 @@ class TripController extends BaseController
 
         if (is_null($passenger)) {
             return back()->withErrors(['wrongPassengerDataError' => 'Неверное ФИО или номер пропуска.']);
+        }
+        else {
+            $passenger->update([
+                'telegram' => $validated['telegram']
+            ]);
         }
 
         if (Registration::query()

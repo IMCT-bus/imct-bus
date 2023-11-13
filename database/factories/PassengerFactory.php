@@ -10,7 +10,7 @@ class PassengerFactory extends Factory
     {
         return [
             'pass' => fake()->unique()->numberBetween(1000, 9999),
-            'full_name' => fake('ru_RU')->lastName() . ' A.A.',
+            'full_name' => fake('ru_RU')->lastName() . ' Ф.Ф.',
             'telegram' => fake()->userName(),
         ];
     }
