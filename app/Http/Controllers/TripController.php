@@ -7,6 +7,8 @@ use App\Http\Resources\TripResource;
 use App\Models\Passenger;
 use App\Models\Registration;
 use App\Models\Trip;
+use DateTime;
+use DateTimeZone;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +16,8 @@ use Inertia\Response;
 
 class TripController extends BaseController
 {
+    public const TIMEZONE = 'Asia/Vladivostok';
+
     public function index(): Response
     {
         $trips = TripResource::collection(
@@ -41,6 +45,7 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
+        //TODO: telegram
         $passenger = Passenger::query()
             ->where('pass', $validated['pass'])
             ->where('full_name', $validated['full_name'])
@@ -58,7 +63,7 @@ class TripController extends BaseController
             return back()->withErrors(['alreadyRegisteredError' => 'Пассажир с этим пропуском уже зарегистрирован на рейс.']);
         }
 
-        if (!$trip->is_published || $trip->loadCount('registrations') >= $trip->seats) {
+        if (!$trip->is_published || $trip->loadCount('registrations')->registrations_count >= $trip->seats) {
             return back()->withErrors(['registrationClosedError' => 'Регистрация на рейс закрыта.']);
         }
 
@@ -73,6 +78,8 @@ class TripController extends BaseController
                 'passenger_id' => $passenger->id,
                 'trip_uuid' => $trip->uuid,
                 'stop_id' => $validated['stop_id'],
+                'created_at' => new DateTime('now', new DateTimeZone(self::TIMEZONE)),
+                'updated_at' => new DateTime('now', new DateTimeZone(self::TIMEZONE)),
             ]);
 
             DB::commit();
