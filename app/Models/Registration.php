@@ -50,4 +50,11 @@ class Registration extends Model
     {
 		return $this->belongsTo(Trip::class, 'trip_uuid');
 	}
+
+    public static function findByTripAndPassenger($tripUuid, $passengerId)
+    {
+        return self::where('trip_uuid', $tripUuid)
+            ->where('passenger_id', $passengerId)
+            ->first();
+    }
 }

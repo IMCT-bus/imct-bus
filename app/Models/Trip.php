@@ -69,4 +69,10 @@ class Trip extends Model
 
         return $query->whereDate('date', '>=', $today);
     }
+
+    public function scopeOrderByStartsAt(Builder $query): Builder
+    {
+        return $query->join('routes', 'routes.id', '=', 'trips.route_id')
+            ->orderByRaw('date DESC, routes.starts_at ASC');
+    }
 }

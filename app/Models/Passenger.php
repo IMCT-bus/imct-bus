@@ -30,4 +30,11 @@ class Passenger extends Model
     {
         return $this->hasMany(Registration::class);
     }
+
+    public static function findByCredentials($pass, $fullName)
+    {
+        return self::where('pass', $pass)
+            ->where('full_name', $fullName)
+            ->first();
+    }
 }
