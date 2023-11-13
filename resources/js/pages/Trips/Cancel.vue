@@ -8,6 +8,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 
 import { formatDateShort } from '@/utils/lib';
 import { getErrorStatus } from '@/utils/validation';
+import { useMessage } from 'naive-ui';
 
 type CancelRegisterPageProps = {
   trips: Resources.TripResource[];
@@ -27,8 +28,14 @@ const form = useForm<CancelFormType>({
   trip_uuid: null,
 });
 
+const message = useMessage();
+
 function onSubmit() {
-  form.post(route('trips.cancel', form.trip_uuid ?? ''));
+  form.post(route('trips.cancel', form.trip_uuid ?? ''), {
+    onSuccess: () => {
+      message.success('Регистрация успешно отменена');
+    },
+  });
 }
 
 const formIsValid = computed(() => {
