@@ -31,7 +31,6 @@ class TripController extends BaseController
 
     public function showRegister(Trip $trip): Response
     {
-        //TODO: gate, если места закончились?
         return inertia('Trips/Register', [
             'trip' => new TripResource($trip->load('route'))
         ]);

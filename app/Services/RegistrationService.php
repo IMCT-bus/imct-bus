@@ -18,9 +18,7 @@ class RegistrationService
     {
         $passenger = Passenger::findByCredentials($validated['pass'], $validated['full_name']);
 
-        if ($passenger) {
-            $passenger->update(['telegram' => $validated['telegram']]);
-        } else {
+        if (!$passenger) {
             throw ValidationException::withMessages(['wrongPassengerDataError' => 'Неверное ФИО или номер пропуска.']);
         }
 
@@ -33,6 +31,10 @@ class RegistrationService
         }
 
         $this->startTransaction($trip->uuid, $passenger->id, $validated['stop_id']);
+
+        if ($validated['telegram']) {
+            $passenger->update(['telegram' => $validated['telegram']]);
+        }
     }
 
     /**
