@@ -14,7 +14,7 @@ class TelegramUsernameRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!preg_match('/^[a-z0-9_]{5,32}$/', $value)) {
-            $fail('Невалидный telegram, поле может содержать символы a-z, 0-9 и _.');
+            $fail('Невалидный telegram.');
         }
     }
 }
