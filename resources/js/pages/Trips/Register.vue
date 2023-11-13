@@ -12,7 +12,6 @@ import MessageDialogContent from './MessageDialogContent.vue';
 
 import { getErrorStatus } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
-import { onMounted } from 'vue';
 
 type TripRegisterProps = {
   trip: Resources.TripResource;
@@ -40,6 +39,7 @@ const dialog = useDialog();
 
 function onSubmit() {
   form.post(route('trips.register', props.trip.uuid), {
+    preserveScroll: true,
     onSuccess: () =>
       dialog.success({
         title: 'Успешно',
@@ -94,7 +94,14 @@ const date = formatDateLong(props.trip.date);
             }"
           />
         </n-form-item>
-        <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
+        <n-form-item
+          label="Номер пропуска"
+          :feedback="form.errors.pass || $page.props.errors.wrongPassengerDataError || $page.props.errors.alreadyRegisteredError"
+          :validation-status="
+            getErrorStatus(form.errors.pass || $page.props.errors.wrongPassengerDataError || $page.props.errors.alreadyRegisteredError)
+          "
+          required
+        >
           <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
         </n-form-item>
         <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
@@ -119,7 +126,13 @@ const date = formatDateLong(props.trip.date);
         <n-form-item :show-label="false" :feedback="form.errors.over_18" :validation-status="getErrorStatus(form.errors.over_18)">
           <n-checkbox v-model:checked="form.over_18"> Подтверждаю, что мне есть 18 лет</n-checkbox>
         </n-form-item>
-        <n-button :disabled="!formIsValid" type="primary" attr-type="submit">Зарегистрироваться</n-button>
+        <n-form-item
+          :show-label="false"
+          :feedback="$page.props.errors.registrationClosedError"
+          :validation-status="getErrorStatus($page.props.errors.registrationClosedError)"
+        >
+          <n-button :disabled="!formIsValid" type="primary" attr-type="submit">Зарегистрироваться</n-button>
+        </n-form-item>
       </div>
     </n-form>
   </AppLayout>
@@ -150,6 +163,9 @@ const date = formatDateLong(props.trip.date);
 
   @include phone {
     flex-direction: column;
+    * {
+      flex-grow: 1;
+    }
   }
 }
 </style>

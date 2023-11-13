@@ -2,9 +2,9 @@ import { Page, PageProps } from '@inertiajs/core';
 
 declare module '@inertiajs/core' {
   export interface PageProps {
-    errors: Record<string, string[]>;
+    errors: Record<string, string>;
     loggedIn: boolean;
-  } 
+  }
 }
 
 declare module '@inertiajs/vue3' {
