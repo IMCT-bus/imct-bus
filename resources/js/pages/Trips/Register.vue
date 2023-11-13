@@ -160,6 +160,9 @@ const date = formatDateLong(props.trip.date);
   @include row;
   justify-content: space-between;
   margin-bottom: 4rem;
+  .n-button {
+    flex-grow: 1;
+  }
 
   @include phone {
     flex-direction: column;
