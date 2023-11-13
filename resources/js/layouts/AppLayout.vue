@@ -96,6 +96,7 @@ const links: DropdownOption[] = [
   max-width: 70rem;
   margin: auto;
   padding: 0.75rem;
+  position: relative;
 
   .main-content {
     margin-top: 2rem;

@@ -16,7 +16,7 @@ function onRegisterClick(uuid: string) {
 </script>
 
 <template>
-  <n-list>
+  <n-list class="trips-list">
     <TripsListItem v-for="trip in trips" :key="trip.uuid" :trip="trip" type="passenger">
       <template #desc>
         <n-statistic label="Свободных мест" class="seats">
@@ -49,6 +49,9 @@ function onRegisterClick(uuid: string) {
 </template>
 
 <style scoped lang="scss">
+.trips-list {
+  margin-bottom: 3rem;
+}
 .seats {
   .n-icon {
     margin: 0;
