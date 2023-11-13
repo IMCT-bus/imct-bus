@@ -45,7 +45,7 @@ class TripController extends BaseController
             $this->registrationService->create($validated, $trip);
             return redirect()->route('trips.index');
         } catch (ValidationException $exception) {
-            return back()->withErrors($exception->validator->errors()->all());
+            return back()->withErrors($exception->validator->errors());
         }
     }
 
@@ -70,7 +70,7 @@ class TripController extends BaseController
             $this->registrationService->destroy($validated, $trip);
             return redirect()->route('trips.index');
         } catch (ValidationException $exception) {
-            return back()->withErrors($exception->validator->errors()->all());
+            return back()->withErrors($exception->validator->errors());
         }
     }
 

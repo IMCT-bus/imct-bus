@@ -68,6 +68,8 @@ class RegistrationService
                 'passenger_id' => $passengerId,
                 'trip_uuid' => $tripUuid,
                 'stop_id' => $stopId,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             DB::commit();
