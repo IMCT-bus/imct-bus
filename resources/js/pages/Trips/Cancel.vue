@@ -28,7 +28,7 @@ const form = useForm<CancelFormType>({
 });
 
 function onSubmit() {
-  form.post(route('trips.cancel'));
+  form.post(route('trips.cancel', form.trip_uuid ?? ''));
 }
 
 const formIsValid = computed(() => {

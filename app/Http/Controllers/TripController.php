@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CancellationRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\TripResource;
 use App\Models\Passenger;
@@ -102,10 +103,27 @@ class TripController extends BaseController
         ]);
     }
 
-    public function cancel(Trip $trip): RedirectResponse
+    public function cancel(CancellationRequest $request, Trip $trip): RedirectResponse
     {
-        //TODO: отмена регистрации
+        $validated = $request->validated();
 
-        return redirect()->route('trips.index');
+        $passenger = Passenger::query()
+            ->where('pass', $validated['pass'])
+            ->where('full_name', $validated['full_name'])
+            ->first();
+
+        if ($passenger) {
+            $registration = Registration::query()
+                ->where('trip_uuid', $trip->uuid)
+                ->where('passenger_id', $passenger->id)
+                ->first();
+
+            if ($registration) {
+                $registration->delete();
+                return redirect()->route('trips.index');
+            }
+        }
+
+        return back()->withErrors(['wrongRegistrationDataError' => 'Не удалось найти регистрацию.']);
     }
 }
