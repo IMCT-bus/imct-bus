@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $link
  *
  * @property Route[] $routes
+ * @property Registration[] $registrations
  */
 class Stop extends Model
 {
@@ -31,8 +32,8 @@ class Stop extends Model
             ->withPivot('arrives_at', 'position');
 	}
 
-    public function trips(): HasMany
+    public function registrations(): HasMany
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Registration::class);
     }
 }

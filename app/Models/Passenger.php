@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $pass
  * @property string $full_name
  * @property string|null $telegram
+ *
+ * @property Registration[] $registrations
  */
 class Passenger extends Model
 {
@@ -24,8 +26,8 @@ class Passenger extends Model
 		'telegram'
 	];
 
-    public function trips(): HasMany
+    public function registrations(): HasMany
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Registration::class);
     }
 }

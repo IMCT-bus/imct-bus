@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $seats
  *
  * @property Route $route
+ * @property Registration[] $registrations
  */
 class Trip extends Model
 {
@@ -52,9 +53,9 @@ class Trip extends Model
         return $this->belongsTo(Route::class);
 	}
 
-    public function trips(): HasMany
+    public function registrations(): HasMany
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Registration::class);
     }
 
     public function scopePublished(Builder $query): Builder
