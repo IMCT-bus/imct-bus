@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
 import { AtSharp } from '@vicons/ionicons5';
-import { SelectOption } from 'naive-ui';
+import { SelectOption, useDialog } from 'naive-ui';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
+import MessageDialogContent from './MessageDialogContent.vue';
 
 import { getErrorStatus } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
+import { onMounted } from 'vue';
 
 type TripRegisterProps = {
   trip: Resources.TripResource;
@@ -34,8 +36,23 @@ const form = useForm<TripRegisterForm>({
   over_18: false,
 });
 
+const dialog = useDialog();
+
 function onSubmit() {
-  form.post(route('trips.register', props.trip.uuid));
+  form.post(route('trips.register', props.trip.uuid), {
+    onSuccess: () =>
+      dialog.success({
+        title: 'Успешно',
+        content: () =>
+          h(MessageDialogContent, {
+            trip: props.trip,
+            stop: props.trip.route.stops.find((v) => v.id === form.stop_id)!,
+          }),
+        style: {
+          paddingInline: '.5rem',
+        },
+      }),
+  });
 }
 
 const formIsValid = computed(() => {
