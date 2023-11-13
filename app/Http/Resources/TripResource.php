@@ -16,6 +16,7 @@ class TripResource extends JsonResource
             'car_number' => $this->car_number,
             'link' => $this->link,
             'seats' => $this->seats,
+            'remaining_seats' => $this->seats - $this->registrations_count,
             'route' => new RouteResource($this->whenLoaded('route')->load('stops')),
         ];
     }

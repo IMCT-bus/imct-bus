@@ -35,7 +35,7 @@ const form = useForm<TripRegisterForm>({
 });
 
 function onSubmit() {
-  form.post(route('trips.register'));
+  form.post(route('trips.register', props.trip.uuid));
 }
 
 const formIsValid = computed(() => {

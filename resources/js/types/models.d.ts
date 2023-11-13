@@ -29,6 +29,7 @@ declare namespace Models {
     car_number: string;
     link: string | null;
     seats: number;
+    remaining_seats: number;
     route_id: number;
   };
 
