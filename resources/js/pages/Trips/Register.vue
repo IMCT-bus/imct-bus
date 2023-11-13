@@ -8,7 +8,7 @@ import { SelectOption, useDialog } from 'naive-ui';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
-import MessageDialogContent from './MessageDialogContent.vue';
+import MessageDialogContent from '@/components/ui/MessageDialogContent.vue';
 
 import { getErrorStatus } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
