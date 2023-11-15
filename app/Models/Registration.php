@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property int $id
  * @property int $passenger_id
+ * @property string $telegram
  * @property string $trip_uuid
  * @property int $stop_id
  * @property string|null $deleted_at
@@ -32,6 +33,7 @@ class Registration extends Model
 
 	protected $fillable = [
 		'passenger_id',
+        'telegram',
 		'trip_uuid',
 		'stop_id'
 	];

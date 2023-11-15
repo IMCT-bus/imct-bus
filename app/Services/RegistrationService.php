@@ -30,11 +30,7 @@ class RegistrationService
             throw ValidationException::withMessages(['registrationClosedError' => 'Регистрация на рейс закрыта.']);
         }
 
-        $this->startTransaction($trip->uuid, $passenger->id, $validated['stop_id']);
-
-        if ($validated['telegram']) {
-            $passenger->update(['telegram' => $validated['telegram']]);
-        }
+        $this->startTransaction($trip->uuid, $passenger->id, $validated['telegram'], $validated['stop_id']);
     }
 
     /**
@@ -57,7 +53,7 @@ class RegistrationService
         $registration->delete();
     }
 
-    private function startTransaction(string $tripUuid, int $passengerId, int $stopId): void
+    private function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
     {
         DB::beginTransaction();
         try {
@@ -68,6 +64,7 @@ class RegistrationService
 
             DB::table('registrations')->insert([
                 'passenger_id' => $passengerId,
+                'telegram' => $telegram,
                 'trip_uuid' => $tripUuid,
                 'stop_id' => $stopId,
                 'created_at' => now(),

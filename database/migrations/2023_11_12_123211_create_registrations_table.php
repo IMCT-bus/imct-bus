@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('passenger_id')->constrained()->cascadeOnDelete();
+            $table->string('telegram', 32);
             $table->foreignUuid('trip_uuid')->references('uuid')->on('trips')->cascadeOnDelete();
             $table->foreignId('stop_id')->constrained()->cascadeOnDelete();
             $table->softDeletes();

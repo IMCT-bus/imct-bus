@@ -14,6 +14,7 @@ class RegistrationFactory extends Factory
     {
         return [
             'passenger_id' => fake()->randomElement(Passenger::query()->pluck('id')),
+            'telegram' => str_replace('.', '', fake()->userName()),
             'trip_uuid' => fake()->randomElement(Trip::query()->where('is_published', true)->pluck('uuid')),
             'stop_id' => fake()->randomElement(Stop::query()->pluck('id')),
         ];
