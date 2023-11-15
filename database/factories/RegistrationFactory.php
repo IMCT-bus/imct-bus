@@ -12,11 +12,16 @@ class RegistrationFactory extends Factory
 {
     public function definition(): array
     {
+        $trip = Trip::query()
+            ->where('is_published', true)
+            ->orderByRaw('RAND()')
+            ->first();
+
         return [
             'passenger_id' => fake()->randomElement(Passenger::query()->pluck('id')),
             'telegram' => str_replace('.', '', fake()->userName()),
-            'trip_uuid' => fake()->randomElement(Trip::query()->where('is_published', true)->pluck('uuid')),
-            'stop_id' => fake()->randomElement(Stop::query()->pluck('id')),
+            'trip_uuid' => $trip->uuid,
+            'stop_id' => fake()->randomElement($trip->route->stops->pluck('id')),
         ];
     }
 
