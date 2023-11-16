@@ -12,9 +12,9 @@ defineProps<RouteListItemProps>();
 
 <template>
   <n-list-item>
-    <n-thing :description="`Время начала: ${routeItem.starts_at}`">
+    <n-thing>
       <template #header>
-        {{ routeItem.name }}
+      <span class="date">({{ routeItem.starts_at }})</span>  <span>{{ routeItem.name }}</span>
       </template>
       <template #action>
         <div class="actions">
