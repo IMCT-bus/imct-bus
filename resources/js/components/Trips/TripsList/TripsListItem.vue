@@ -21,8 +21,8 @@ const remainingSeats = props.type === 'admin' ? props.trip.remaining_seats : Mat
   <n-list-item>
     <n-thing class="trip-item">
       <template #header class="header">
+        <span class="date">({{ trip.route.starts_at }}) </span>
         <span>{{ trip.route.name }} </span>
-        <span class="date"> ({{ trip.route.starts_at }})</span>
       </template>
       <template #description>
         <template v-if="type === 'admin'">

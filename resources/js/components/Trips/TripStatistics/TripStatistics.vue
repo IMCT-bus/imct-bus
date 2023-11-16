@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { ref, toRefs, onBeforeMount, h } from 'vue';
+import { ref, toRefs, h } from 'vue';
 import { router } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
-import { DataTableColumn, NButton, NIcon } from 'naive-ui';
+import { DataTableColumn, NButton, NIcon, useDialog } from 'naive-ui';
 import { CloseSharp } from '@vicons/ionicons5';
-import { BaseTransitionPropsValidators } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
 type TripStatisticsProps = {
   trip: Resources.TripResource;
 };
-
-const props = defineProps<TripStatisticsProps>();
-const { trip } = toRefs(props);
 
 type TripStatistics = {
   no: number;
@@ -26,7 +22,12 @@ type TripStatistics = {
   registrationId: number;
 };
 
-function getColumns({ action }: { action: (id: number) => void }): DataTableColumn<TripStatistics>[] {
+const props = defineProps<TripStatisticsProps>();
+const { trip } = toRefs(props);
+
+const dialog = useDialog();
+
+function getColumns({ action }: { action: (data: TripStatistics) => void }): DataTableColumn<TripStatistics>[] {
   return [
     { title: '№', key: 'no' },
     {
@@ -62,15 +63,15 @@ function getColumns({ action }: { action: (id: number) => void }): DataTableColu
     {
       title: '',
       key: 'destroy',
-      render: (rowData, rowIndex) =>
+      render: (rowData) =>
         h(
           NButton,
           {
             text: true,
-            onClick: () => action(rowData.registrationId),
+            onClick: () => action(rowData),
           },
-          {default: () => h(NIcon, {color: 'red', size: '20px', component: CloseSharp})}
-        ), 
+          { default: () => h(NIcon, { color: 'red', size: '20px', component: CloseSharp }) },
+        ),
     },
   ];
 }
@@ -81,15 +82,22 @@ function getStop(id: number): { label: string; stop: Resources.StopResource | nu
 }
 
 const columns = getColumns({
-  action: (id: number) => {
-    router.delete(route('admin.trips.destroyRegistration', id), {
-      preserveState: true,
+  action: (data: TripStatistics) => {
+    dialog.warning({
+      title: 'Подтвердите удаление',
+      content: `Удалить ${data.full_name} с рейса ${trip.value.date} ${trip.value.route.starts_at} ${trip.value.route.name}?`,
+      positiveText: 'Да',
+      onPositiveClick: () => {
+        router.delete(route('admin.trips.destroyRegistration', data.registrationId), {
+          onSuccess: () => router.visit(usePage().url),
+        });
+      },
     });
   },
 });
 
-
-const data = ref<TripStatistics[]>(trip.value.registrations.map((reg, idx) => {
+const data = ref<TripStatistics[]>(
+  trip.value.registrations.map((reg, idx) => {
     const stopData = getStop(reg.stop_id);
     return {
       no: idx + 1,
@@ -98,10 +106,11 @@ const data = ref<TripStatistics[]>(trip.value.registrations.map((reg, idx) => {
       pass: reg.passenger.pass,
       stop: stopData.label,
       stopPosition: stopData.stop?.position ?? 9999,
-      telegram: `@${reg.telegram}`,
+      telegram: reg.telegram.startsWith('@') ? reg.telegram : `@${reg.telegram}`,
       registrationId: reg.id,
     };
-  }));
+  }),
+);
 </script>
 
 <template>

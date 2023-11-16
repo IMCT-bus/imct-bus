@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TripStatistics from '@/components/Trips/TripStatistics.vue';
+import TripStatistics from '@/components/Trips/TripStatistics/TripStatistics.vue';
 import TripsListItem from '@/components/Trips/TripsList/TripsListItem.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 

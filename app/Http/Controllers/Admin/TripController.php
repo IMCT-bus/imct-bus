@@ -92,6 +92,6 @@ class TripController extends BaseController
     {
         $registration->delete();
 
-        return back();
+        return redirect()->back();
     }
 }
