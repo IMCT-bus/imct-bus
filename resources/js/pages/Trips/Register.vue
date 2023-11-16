@@ -56,7 +56,7 @@ function onSubmit() {
 }
 
 const formIsValid = computed(() => {
-  return form.full_name.length > 4 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
+  return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
 });
 
 const selectStopOptions: SelectOption[] = props.trip.route.stops
@@ -107,6 +107,7 @@ const date = formatDateLong(props.trip.date);
         <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input
             v-model:value="form.telegram"
+            required
             placeholder="username"
             :input-props="{
               autocomplete: 'username',
