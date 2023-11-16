@@ -10,6 +10,7 @@ class RegistrationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'passenger' => new PassengerResource($this->whenLoaded('passenger')),
             'telegram' => $this->telegram,
             'stop_id' => $this->stop_id,

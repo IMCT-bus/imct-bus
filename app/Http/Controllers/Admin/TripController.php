@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\TripRequest;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\TripResource;
+use App\Models\Registration;
 use App\Models\Route;
 use App\Models\Trip;
 use Carbon\Carbon;
@@ -83,5 +84,12 @@ class TripController extends BaseController
         $trip->delete();
 
         return redirect()->route('admin.trips.index');
+    }
+
+    public function destroyRegistration(Registration $registration): RedirectResponse
+    {
+        $registration->delete();
+
+        return back();
     }
 }
