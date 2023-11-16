@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import TripStatistics from '@/components/Trips/TripStatistics.vue';
+import TripsListItem from '@/components/Trips/TripsList/TripsListItem.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 type TripsShowProps = {
-  trip: any
+  trip: Resources.TripResource;
 };
 
 defineProps<TripsShowProps>();
@@ -10,7 +12,9 @@ defineProps<TripsShowProps>();
 
 <template>
   <AppLayout title="Список пассажиров">
-    <pre>{{ trip }}</pre>
+    <n-list>
+      <TripsListItem :trip="trip" type="admin" />
+    </n-list>
+    <TripStatistics :trip="trip"/>
   </AppLayout>
 </template>
-

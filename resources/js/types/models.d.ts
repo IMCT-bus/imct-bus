@@ -38,4 +38,10 @@ declare namespace Models {
     pass: string;
     telegram?: string;
   }
+
+  export type Registration = {
+    id: number;
+    telegram: string;
+    stop_id: number;
+  }
 }

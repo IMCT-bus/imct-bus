@@ -49,7 +49,8 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        Trip::create([...$validated,
+        Trip::create([
+            ...$validated,
             'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
@@ -72,7 +73,8 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        $trip->update([...$validated,
+        $trip->update([
+            ...$validated,
             'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
