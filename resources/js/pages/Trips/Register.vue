@@ -132,7 +132,7 @@ const date = formatDateLong(props.trip.date);
           :feedback="$page.props.errors.registrationClosedError"
           :validation-status="getErrorStatus($page.props.errors.registrationClosedError)"
         >
-          <n-button :disabled="!formIsValid" type="primary" attr-type="submit">Зарегистрироваться</n-button>
+          <n-button :disabled="!formIsValid" :loading="form.processing" type="primary" attr-type="submit">Зарегистрироваться</n-button>
         </n-form-item>
       </div>
     </n-form>

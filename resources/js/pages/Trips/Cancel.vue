@@ -68,7 +68,7 @@ const tripSelectOptions = props.trips.map((trip) => ({
         </n-form-item>
       </div>
       <div class="actions">
-        <n-button type="primary" attr-type="submit" :disabled="!formIsValid">Отменить</n-button>
+        <n-button type="primary" attr-type="submit" :disabled="!formIsValid" :loading="form.processing">Отменить</n-button>
       </div>
     </n-form>
   </AppLayout>

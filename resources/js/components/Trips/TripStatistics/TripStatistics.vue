@@ -87,6 +87,9 @@ const columns = getColumns({
       title: 'Подтвердите удаление',
       content: `Удалить ${data.full_name} с рейса ${trip.value.date} ${trip.value.route.starts_at} ${trip.value.route.name}?`,
       positiveText: 'Да',
+      style: {
+        width: '640px'
+      },
       onPositiveClick: () => {
         router.delete(route('admin.trips.destroyRegistration', data.registrationId), {
           onSuccess: () => router.visit(usePage().url),
