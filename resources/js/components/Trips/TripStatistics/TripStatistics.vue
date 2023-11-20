@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, toRefs, h } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
 import { DataTableColumn, NButton, NIcon, useDialog } from 'naive-ui';
 import { CloseSharp } from '@vicons/ionicons5';
-import { usePage } from '@inertiajs/vue3';
+
+import { formatDateShort } from '@/utils/lib';
 
 type TripStatisticsProps = {
   trip: Resources.TripResource;
@@ -85,10 +86,10 @@ const columns = getColumns({
   action: (data: TripStatistics) => {
     dialog.warning({
       title: 'Подтвердите удаление',
-      content: `Удалить ${data.full_name} с рейса ${trip.value.date} ${trip.value.route.starts_at} ${trip.value.route.name}?`,
+      content: `Удалить ${data.full_name} с рейса ${formatDateShort(trip.value.date)} (${trip.value.route.starts_at}) ${trip.value.route.name}?`,
       positiveText: 'Да',
       style: {
-        width: '640px'
+        width: '640px',
       },
       onPositiveClick: () => {
         router.delete(route('admin.trips.destroyRegistration', data.registrationId), {

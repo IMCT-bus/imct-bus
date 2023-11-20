@@ -16,7 +16,7 @@ defineProps<TripsShowProps>();
     <n-list>
       <TripsListItem :trip="trip" type="admin">
         <template #desc>
-          <SeatsBlock :allow-negative="true" :remaining-seats="trip.remaining_seats" :seats="trip.seats"/>
+          <SeatsBlock :registered="trip.registrations_count" :seats="trip.seats"/>
         </template>
       </TripsListItem>
     </n-list>

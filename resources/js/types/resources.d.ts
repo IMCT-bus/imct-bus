@@ -11,5 +11,6 @@ declare namespace Resources {
     remaining_seats: number;
     route: Resources.RouteResource;
     registrations: Resources.RegistrationResource[];
+    registrations_count: number;
   };
 }

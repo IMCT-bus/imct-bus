@@ -25,7 +25,7 @@ function onRegisterClick(uuid: string) {
         </n-collapse-item>
       </n-collapse>
       <template #desc>
-        <SeatsBlock :allow-negative="false" :remaining-seats="trip.remaining_seats" :seats="trip.seats"/>
+        <SeatsBlock :registered="trip.registrations_count" :seats="trip.seats"/>
       </template>
       <template #actions>
         <n-button type="primary" @click="onRegisterClick(trip.uuid)" :disabled="trip.remaining_seats <= 0">Зарегистрироваться</n-button>
