@@ -3,6 +3,7 @@ import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import TripsListItem from './TripsListItem.vue';
 import { router } from '@inertiajs/vue3';
 import route from 'ziggy-js';
+import SeatsBlock from '@/components/ui/SeatsBlock.vue';
 
 type TripsListProps = {
   trips: Resources.TripResource[];
@@ -23,6 +24,9 @@ function onRegisterClick(uuid: string) {
           <StopsTimeline :stops="trip.route.stops" />
         </n-collapse-item>
       </n-collapse>
+      <template #desc>
+        <SeatsBlock :allow-negative="false" :remaining-seats="trip.remaining_seats" :seats="trip.seats"/>
+      </template>
       <template #actions>
         <n-button type="primary" @click="onRegisterClick(trip.uuid)" :disabled="trip.remaining_seats <= 0">Зарегистрироваться</n-button>
       </template>

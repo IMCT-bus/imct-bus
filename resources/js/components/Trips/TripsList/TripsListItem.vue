@@ -4,7 +4,6 @@ import { CheckmarkCircleOutline, EyeOff, LinkOutline } from '@vicons/ionicons5';
 import CarNumber from '@/components/ui/CarNumber.vue';
 
 import { formatDateLong } from '@/utils/lib';
-import SeatsBlock from '@/components/ui/SeatsBlock.vue';
 
 type TripsListItemProps = {
   trip: Resources.TripResource;
@@ -14,7 +13,6 @@ type TripsListItemProps = {
 const props = defineProps<TripsListItemProps>();
 const date = formatDateLong(props.trip.date);
 
-const remainingSeats = props.type === 'admin' ? props.trip.remaining_seats : Math.max(0, props.trip.remaining_seats);
 </script>
 
 <template>
@@ -43,7 +41,7 @@ const remainingSeats = props.type === 'admin' ? props.trip.remaining_seats : Mat
           <n-el tag="a" :href="trip.link" target="_blank" :style="{ color: 'var(--info-color)' }"> Локатор </n-el>
         </n-space>
         <p v-else>Ссылка на локатор появится позже</p>
-        <SeatsBlock :remaining-seats="remainingSeats" :seats="trip.seats" />
+        <slot name="desc"></slot>
       </template>
       <slot name="default"></slot>
       <template #action>

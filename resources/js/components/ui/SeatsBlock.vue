@@ -1,10 +1,13 @@
 <script setup lang="ts">
 type SeatsBlockProps = {
+  allowNegative: boolean;
   remainingSeats: number;
   seats: number;
 };
 
-defineProps<SeatsBlockProps>();
+const props = defineProps<SeatsBlockProps>();
+
+const remainingSeatsFormat = props.allowNegative ? props.remainingSeats : Math.max(0, props.remainingSeats);
 </script>
 
 <template>
@@ -19,7 +22,7 @@ defineProps<SeatsBlockProps>();
         </svg>
       </n-icon>
     </template>
-    <span>{{ remainingSeats }}</span>
+    <span>{{ remainingSeatsFormat }}</span>
     <template #suffix>
       <span>/ {{ seats }}</span>
     </template>

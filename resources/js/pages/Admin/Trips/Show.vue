@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TripStatistics from '@/components/Trips/TripStatistics/TripStatistics.vue';
 import TripsListItem from '@/components/Trips/TripsList/TripsListItem.vue';
+import SeatsBlock from '@/components/ui/SeatsBlock.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 type TripsShowProps = {
@@ -13,7 +14,11 @@ defineProps<TripsShowProps>();
 <template>
   <AppLayout title="Список пассажиров">
     <n-list>
-      <TripsListItem :trip="trip" type="admin" />
+      <TripsListItem :trip="trip" type="admin">
+        <template #desc>
+          <SeatsBlock :allow-negative="true" :remaining-seats="trip.remaining_seats" :seats="trip.seats"/>
+        </template>
+      </TripsListItem>
     </n-list>
     <TripStatistics :trip="trip"/>
   </AppLayout>
