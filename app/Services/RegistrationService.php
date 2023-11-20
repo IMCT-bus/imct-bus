@@ -14,6 +14,7 @@ class RegistrationService
 {
     /**
      * @throws ValidationException
+     * @throws Exception
      */
     public function create(array $validated, Trip $trip): void
     {
@@ -54,6 +55,9 @@ class RegistrationService
         $registration->delete();
     }
 
+    /**
+     * @throws Exception
+     */
     public function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
     {
         DB::beginTransaction();
@@ -78,9 +82,10 @@ class RegistrationService
             ]);
 
             DB::commit();
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             DB::rollback();
-            Log::error('Transaction failed: ' . $e->getMessage());
+            Log::error('Transaction failed: ' . $exception->getMessage());
+            throw $exception;
         }
     }
 

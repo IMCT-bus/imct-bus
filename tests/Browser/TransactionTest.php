@@ -7,7 +7,9 @@ use App\Models\Trip;
 use App\Services\RegistrationService;
 use Database\Seeders\RouteSeeder;
 use Database\Seeders\StopSeeder;
+use Exception;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Tests\DuskTestCase;
 
 class TransactionTest extends DuskTestCase
@@ -33,14 +35,23 @@ class TransactionTest extends DuskTestCase
         $telegram = 'telegram';
         $stopId = (int)$this->trip->route->stops->pluck('id')->first();
 
+        // Первый вызов, который должен пройти успешно
         $this->runParallelTransaction($tripUuid, 1, $telegram, $stopId);
 
+        // Второй вызов, который должен вызвать ошибку
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Регистрация на рейс закрыта.');
+
+        // Запуск второй транзакции
         app(RegistrationService::class)->startTransaction(
             $tripUuid,
             2,
             $telegram,
             $stopId
         );
+
+        // Проверка, что запись создана только один раз
+        $this->assertEquals(1, DB::table('registrations')->where('trip_uuid', $tripUuid)->count());
     }
 
     protected function runParallelTransaction($tripUuid, $passengerId, $telegram, $stopId): void
