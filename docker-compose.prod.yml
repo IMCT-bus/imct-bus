@@ -14,6 +14,19 @@ services:
     networks:
       - app-network
 
+  nginx:
+    image: nginx:alpine
+    container_name: bus-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "83:83"
+    volumes:
+      - ./:/var/www/html/
+      - ./.docker/nginx/prod.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
   db:
     image: mariadb
     restart: always
