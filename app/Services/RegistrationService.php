@@ -7,6 +7,7 @@ use App\Models\Registration;
 use App\Models\Trip;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class RegistrationService
@@ -53,7 +54,7 @@ class RegistrationService
         $registration->delete();
     }
 
-    private function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
+    public function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
     {
         DB::beginTransaction();
         try {
@@ -61,6 +62,11 @@ class RegistrationService
                 ->where('trip_uuid', $tripUuid)
                 ->lockForUpdate()
                 ->get();
+
+            $trip = Trip::find($tripUuid);
+            if ($trip->loadCount('registrations')->registrations_count >= $trip->seats) {
+                throw new Exception('Регистрация на рейс закрыта.');
+            }
 
             DB::table('registrations')->insert([
                 'passenger_id' => $passengerId,
@@ -74,7 +80,7 @@ class RegistrationService
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            // Обработка ошибки, если регистрация не удалась
+            Log::error('Transaction failed: ' . $e->getMessage());
         }
     }
 
