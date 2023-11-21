@@ -59,12 +59,18 @@ const formIsValid = computed(() => {
   return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
 });
 
-const selectStopOptions: SelectOption[] = props.trip.route.stops
-  .filter((stop) => stop.arrives_at != '')
-  .map((stop) => ({
+function getStopOptions() {
+  let stops = props.trip.route.stops;
+
+  if (stops.slice(1).every((stop) => stop.arrives_at === '')) {
+    stops = stops.filter((stop) => stop.arrives_at !== '');
+  }
+
+  return stops.map((stop) => ({
     label: `${stop.name} ${stop.arrives_at ? `(${stop.arrives_at})` : ''}`,
     value: stop.id,
   }));
+}
 
 const date = formatDateLong(props.trip.date);
 </script>
@@ -119,7 +125,7 @@ const date = formatDateLong(props.trip.date);
           </n-input>
         </n-form-item>
         <n-form-item label="Остановка" :feedback="form.errors.stop_id" :validation-status="getErrorStatus(form.errors.stop_id)" required>
-          <n-select v-model:value="form.stop_id" :options="selectStopOptions" />
+          <n-select v-model:value="form.stop_id" :options="getStopOptions()" />
         </n-form-item>
       </div>
 
