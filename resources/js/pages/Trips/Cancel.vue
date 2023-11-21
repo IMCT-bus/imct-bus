@@ -7,7 +7,9 @@ import route from 'ziggy-js';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 import { formatDateShort } from '@/utils/lib';
-import { getErrorStatus } from '@/utils/validation';
+import { getErrorStatus, passMask } from '@/utils/validation';
+
+import { vMaska } from 'maska';
 import { useMessage } from 'naive-ui';
 
 type CancelRegisterPageProps = {
@@ -56,7 +58,15 @@ const tripSelectOptions = props.trips.map((trip) => ({
           <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
         </n-form-item>
         <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
-          <n-input v-model:value="form.pass" placeholder="5173" maxlength="4" inputmode="numeric" />
+          <n-input
+            v-model:value="form.pass"
+            v-maska:[passMask]
+            :input-props="{
+              inputmode: 'numeric',
+            }"
+            placeholder="5173"
+            maxlength="4"
+          />
         </n-form-item>
         <n-form-item
           label="Рейс"

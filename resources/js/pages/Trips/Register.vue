@@ -4,13 +4,14 @@ import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
 import { AtSharp } from '@vicons/ionicons5';
-import { SelectOption, useDialog } from 'naive-ui';
+import { vMaska } from 'maska';
+import { useDialog } from 'naive-ui';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import MessageDialogContent from '@/components/ui/MessageDialogContent.vue';
 
-import { getErrorStatus } from '@/utils/validation';
+import { getErrorStatus, passMask } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
 import { usePage } from '@inertiajs/vue3';
 
@@ -114,7 +115,15 @@ const date = formatDateLong(props.trip.date);
           "
           required
         >
-          <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
+          <n-input
+            v-model:value="form.pass"
+            v-maska:[passMask]
+            :input-props="{
+              inputmode: 'numeric',
+            }"
+            maxlength="4"
+            placeholder="3006"
+          />
         </n-form-item>
         <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input

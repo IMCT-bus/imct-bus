@@ -5,7 +5,8 @@ import route from 'ziggy-js';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 import { Close } from '@vicons/ionicons5';
-import { getErrorStatus } from '@/utils/validation';
+import { getErrorStatus, passMask } from '@/utils/validation';
+import { vMaska } from 'maska';
 import { useDialog } from 'naive-ui';
 
 type PassengersPageProps = {
@@ -42,7 +43,15 @@ function onDeleteClick(passenger: Models.Passenger) {
     <n-form @submit.prevent="onSubmit">
       <div class="container">
         <n-form-item label="Номер пропуска" required :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)">
-          <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="5432" />
+          <n-input
+            v-model:value="form.pass"
+            v-maska:[passMask]
+            :input-props="{
+              inputmode: 'numeric',
+            }"
+            maxlength="4"
+            placeholder="5432"
+          />
         </n-form-item>
         <n-form-item label="ФИО" required :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
           <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
