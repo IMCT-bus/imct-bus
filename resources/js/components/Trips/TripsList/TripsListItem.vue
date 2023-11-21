@@ -24,14 +24,14 @@ const date = formatDateLong(props.trip.date);
       </template>
       <template #description>
         <template v-if="type === 'admin'">
-          <n-space align="center" v-if="trip.is_published">
+          <div v-if="trip.is_published" class="status">
             <n-icon :component="CheckmarkCircleOutline" size="20px" color="green" />
             <span>Опубликован</span>
-          </n-space>
-          <n-space align="center" v-else>
+          </div>
+          <div class="status" v-else>
             <n-icon :component="EyeOff" size="20px" />
             <span>Скрыт</span>
-          </n-space>
+          </div>
         </template>
         <span class="date">{{ date }}</span>
         <CarNumber v-if="trip.car_number" :car-number="trip.car_number" />
@@ -60,10 +60,19 @@ const date = formatDateLong(props.trip.date);
   }
 }
 
+.status {
+  @include row;
+  align-items: center;
+}
+
 .actions {
   @include row;
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
+
+  @include phone {
+    @include stack;
+  }
 }
 </style>
