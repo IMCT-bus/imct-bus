@@ -12,6 +12,7 @@ import MessageDialogContent from '@/components/ui/MessageDialogContent.vue';
 
 import { getErrorStatus } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
+import { usePage } from '@inertiajs/vue3';
 
 type TripRegisterProps = {
   trip: Resources.TripResource;
@@ -35,6 +36,7 @@ const form = useForm<TripRegisterForm>({
   over_18: false,
 });
 
+const page = usePage();
 const dialog = useDialog();
 
 function onSubmit() {
@@ -55,10 +57,6 @@ function onSubmit() {
   });
 }
 
-const formIsValid = computed(() => {
-  return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
-});
-
 function getStopOptions() {
   let stops = props.trip.route.stops;
 
@@ -71,6 +69,14 @@ function getStopOptions() {
     value: stop.id,
   }));
 }
+
+const formIsValid = computed(() => {
+  return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
+});
+
+const isRegistrationClosed = computed(() => {
+  return page.props.errors.registrationClosedError || page.props.errors.transactionError;
+});
 
 const date = formatDateLong(props.trip.date);
 </script>
@@ -133,12 +139,10 @@ const date = formatDateLong(props.trip.date);
         <n-form-item :show-label="false" :feedback="form.errors.over_18" :validation-status="getErrorStatus(form.errors.over_18)">
           <n-checkbox v-model:checked="form.over_18"> Подтверждаю, что мне есть 18 лет</n-checkbox>
         </n-form-item>
-        <n-form-item
-          :show-label="false"
-          :feedback="$page.props.errors.registrationClosedError"
-          :validation-status="getErrorStatus($page.props.errors.registrationClosedError)"
-        >
-          <n-button :disabled="!formIsValid" :loading="form.processing" type="primary" attr-type="submit">Зарегистрироваться</n-button>
+        <n-form-item :show-label="false" :feedback="isRegistrationClosed" :validation-status="getErrorStatus(isRegistrationClosed)">
+          <n-button :disabled="!formIsValid || isRegistrationClosed !== undefined" :loading="form.processing" type="primary" attr-type="submit"
+            >Зарегистрироваться</n-button
+          >
         </n-form-item>
       </div>
     </n-form>

@@ -8,7 +8,9 @@ type TripsShowProps = {
   trip: Resources.TripResource;
 };
 
-defineProps<TripsShowProps>();
+const props = defineProps<TripsShowProps>();
+
+console.log(JSON.stringify(props.trip, null, 2));
 </script>
 
 <template>
@@ -16,10 +18,10 @@ defineProps<TripsShowProps>();
     <n-list>
       <TripsListItem :trip="trip" type="admin">
         <template #desc>
-          <SeatsBlock :registered="trip.registrations_count" :seats="trip.seats"/>
+          <SeatsBlock :registered="trip.registrations_count" :seats="trip.seats" />
         </template>
       </TripsListItem>
     </n-list>
-    <TripStatistics :trip="trip"/>
+    <TripStatistics :trip="trip" />
   </AppLayout>
 </template>
