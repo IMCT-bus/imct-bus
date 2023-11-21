@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 
 import { Close } from '@vicons/ionicons5';
 import { getErrorStatus } from '@/utils/validation';
+import { useDialog } from 'naive-ui';
 
 type PassengersPageProps = {
   passengers: Models.Passenger[];
@@ -18,14 +19,21 @@ const form = useForm({
   pass: '',
 });
 
+const dialog = useDialog();
+
 function onSubmit() {
   form.post(route('admin.passengers.store'), {
     onSuccess: () => form.reset(),
   });
 }
 
-function onDeleteClick(id: number) {
-  router.delete(route('admin.passengers.destroy', id))
+function onDeleteClick(passenger: Models.Passenger) {
+  dialog.warning({
+    title: 'Подтвердите удаление',
+    content: `Удалить пропуск №${passenger.pass} — ${passenger.full_name}?`,
+    positiveText: 'Дa',
+    onPositiveClick: () => router.delete(route('admin.passengers.destroy', passenger.id)),
+  });
 }
 </script>
 
@@ -49,7 +57,7 @@ function onDeleteClick(id: number) {
         <n-space justify="space-between" align="center">
           <p>{{ passenger.pass }}</p>
           <p class="name">{{ passenger.full_name }}</p>
-          <n-button type="error" quaternary @click="onDeleteClick(passenger.id)">
+          <n-button type="error" quaternary @click="onDeleteClick(passenger)">
             <template #icon>
               <n-icon :component="Close" size="20px" />
             </template>
