@@ -11,7 +11,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import MessageDialogContent from '@/components/ui/MessageDialogContent.vue';
 
-import { getErrorStatus, passMask } from '@/utils/validation';
+import { fullNameMask, getErrorStatus, passMask } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
 import { usePage } from '@inertiajs/vue3';
 
@@ -100,11 +100,12 @@ const date = formatDateLong(props.trip.date);
         <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)" required>
           <n-input
             v-model:value="form.full_name"
-            placeholder="Иванов И.И."
-            autofocus
+            v-maska:[fullNameMask]
             :input-props="{
               autocomplete: 'name',
             }"
+            placeholder="Иванов И.И."
+            autofocus
           />
         </n-form-item>
         <n-form-item

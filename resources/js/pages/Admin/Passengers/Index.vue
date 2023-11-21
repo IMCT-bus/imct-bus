@@ -5,7 +5,7 @@ import route from 'ziggy-js';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 import { Close } from '@vicons/ionicons5';
-import { getErrorStatus, passMask } from '@/utils/validation';
+import { getErrorStatus, passMask, fullNameMask } from '@/utils/validation';
 import { vMaska } from 'maska';
 import { useDialog } from 'naive-ui';
 
@@ -54,7 +54,7 @@ function onDeleteClick(passenger: Models.Passenger) {
           />
         </n-form-item>
         <n-form-item label="ФИО" required :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)">
-          <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
+          <n-input v-model:value="form.full_name" v-maska:[fullNameMask] placeholder="Иванов И.И." />
         </n-form-item>
         <div>
           <n-button type="primary" attr-type="submit" class="add-button" :disabled="form.processing">Добавить</n-button>

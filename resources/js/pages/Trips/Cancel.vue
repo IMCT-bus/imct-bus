@@ -7,7 +7,7 @@ import route from 'ziggy-js';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 import { formatDateShort } from '@/utils/lib';
-import { getErrorStatus, passMask } from '@/utils/validation';
+import { fullNameMask, getErrorStatus, passMask } from '@/utils/validation';
 
 import { vMaska } from 'maska';
 import { useMessage } from 'naive-ui';
@@ -55,7 +55,7 @@ const tripSelectOptions = props.trips.map((trip) => ({
     <n-form @submit.prevent="onSubmit">
       <div class="container">
         <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)" required>
-          <n-input v-model:value="form.full_name" placeholder="Иванов И.И." />
+          <n-input v-model:value="form.full_name" v-maska:[fullNameMask] placeholder="Иванов И.И." />
         </n-form-item>
         <n-form-item label="Номер пропуска" :feedback="form.errors.pass" :validation-status="getErrorStatus(form.errors.pass)" required>
           <n-input

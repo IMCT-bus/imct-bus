@@ -6,9 +6,9 @@ import { SelectOption } from 'naive-ui';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import FadeTransition from '@/components/shared/FadeTransition.vue';
 
-import { getErrorStatus } from '@/utils/validation';
+import { getErrorStatus, carNumberMask } from '@/utils/validation';
 import { sub } from 'date-fns';
-import { vMaska, MaskTokens, MaskOptions } from 'maska';
+import { vMaska } from 'maska';
 
 type TripFormProps = {
   routes: Resources.RouteResource[];
@@ -32,16 +32,6 @@ const selectRouteOptions: SelectOption[] = props.routes?.map((route) => ({
   value: route.id,
 }));
 
-const carNumberMaskOptions: MaskOptions = reactive({
-  mask: 'F ### FF',
-  tokens: {
-    F: {
-      pattern: /[А-Яа-я]/,
-      transform: (char: string) => char.toUpperCase(),
-    },
-  },
-});
-
 const stops = computed(() => {
   if (!props.form.route_id) return null;
 
@@ -60,7 +50,7 @@ function disablePreviousDate(timestamp: number) {
         <n-date-picker v-model:value="form.date" format="PPP" :is-date-disabled="disablePreviousDate" type="date" clearable :actions="null" />
       </n-form-item>
       <n-form-item label="Гос. номер" :feedback="form.errors.car_number" :validation-status="getErrorStatus(form.errors.car_number)">
-        <n-input v-model:value="form.car_number" v-maska:[carNumberMaskOptions] placeholder="В 232 ИН" />
+        <n-input v-model:value="form.car_number" v-maska:[carNumberMask] placeholder="В 232 ИН" />
       </n-form-item>
       <n-form-item label="Ссылка на локатор" :feedback="form.errors.link" :validation-status="getErrorStatus(form.errors.link)">
         <n-input v-model:value="form.link" placeholder="Ссылка" />
