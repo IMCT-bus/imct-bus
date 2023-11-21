@@ -106,8 +106,8 @@ const data = ref<TripStatistics[]>(
     return {
       no: idx + 1,
       key: reg.id,
-      full_name: reg.passenger.full_name,
-      pass: reg.passenger.pass,
+      full_name: reg.passenger?.full_name ?? 'Ошибка',
+      pass: reg.passenger?.pass ?? 'Ошибка',
       stop: stopData.label,
       stopPosition: stopData.stop?.position ?? 9999,
       telegram: reg.telegram.startsWith('@') ? reg.telegram : `@${reg.telegram}`,
