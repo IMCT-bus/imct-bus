@@ -33,7 +33,7 @@ class Registration extends Model
 
 	protected $fillable = [
 		'passenger_id',
-        'telegram',
+		'telegram',
 		'trip_uuid',
 		'stop_id'
 	];

@@ -28,6 +28,7 @@ class PassengerController extends BaseController
 
     public function destroy(Passenger $passenger): RedirectResponse
     {
+        $passenger->registrations()->delete();
         $passenger->delete();
 
         return back();
