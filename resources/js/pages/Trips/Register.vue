@@ -61,10 +61,6 @@ function onSubmit() {
 function getStopOptions() {
   let stops = props.trip.route.stops;
 
-  if (stops.slice(1).every((stop) => stop.arrives_at === '')) {
-    stops = stops.filter((stop) => stop.arrives_at !== '');
-  }
-
   return stops.map((stop) => ({
     label: `${stop.name} ${stop.arrives_at ? `(${stop.arrives_at})` : ''}`,
     value: stop.id,
