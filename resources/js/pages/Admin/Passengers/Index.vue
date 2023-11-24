@@ -6,7 +6,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { getErrorStatus, passMask, fullNameMask } from '@/utils/validation';
 import { vMaska } from 'maska';
 import { useDialog } from 'naive-ui';
-import PassengerListItem from '@/pages/Admin/Passengers/PassengerListItem.vue';
+import PassengerListItem from '@/components/Passengers/PassengerListItem.vue';
 
 type PassengersPageProps = {
   passengers: Models.Passenger[];
@@ -74,8 +74,15 @@ function onDeleteClick(passenger: Models.Passenger) {
 }
 
 .passenger-data {
+  &:first-child {
+    margin-top: 2rem;
+  }
+
   font-size: 0.9rem;
   padding: 12px 0 !important;
+  @include phone {
+    padding: 12px 12px !important;
+  }
 }
 .container {
   display: grid;

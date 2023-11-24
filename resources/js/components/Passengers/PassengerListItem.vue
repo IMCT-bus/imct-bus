@@ -77,6 +77,14 @@ function onUpdateSave() {
   column-gap: 1rem;
   .actions {
     justify-self: center;
+    @include phone {
+      justify-self: end;
+    }
+  }
+
+  @include phone {
+    row-gap: .5rem;
+    grid-template-columns: 1fr;
   }
 }
 </style>
