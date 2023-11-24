@@ -4,14 +4,16 @@ import { useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
 import { AtSharp } from '@vicons/ionicons5';
-import { SelectOption, useDialog } from 'naive-ui';
+import { vMaska } from 'maska';
+import { useDialog } from 'naive-ui';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import MessageDialogContent from '@/components/ui/MessageDialogContent.vue';
 
-import { getErrorStatus } from '@/utils/validation';
+import { fullNameMask, getErrorStatus, passMask } from '@/utils/validation';
 import { formatDateLong } from '@/utils/lib';
+import { usePage } from '@inertiajs/vue3';
 
 type TripRegisterProps = {
   trip: Resources.TripResource;
@@ -35,6 +37,7 @@ const form = useForm<TripRegisterForm>({
   over_18: false,
 });
 
+const page = usePage();
 const dialog = useDialog();
 
 function onSubmit() {
@@ -55,16 +58,22 @@ function onSubmit() {
   });
 }
 
-const formIsValid = computed(() => {
-  return form.full_name.length > 4 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
-});
+function getStopOptions() {
+  let stops = props.trip.route.stops;
 
-const selectStopOptions: SelectOption[] = props.trip.route.stops
-  .filter((stop) => stop.arrives_at != '')
-  .map((stop) => ({
+  return stops.map((stop) => ({
     label: `${stop.name} ${stop.arrives_at ? `(${stop.arrives_at})` : ''}`,
     value: stop.id,
   }));
+}
+
+const formIsValid = computed(() => {
+  return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
+});
+
+const isRegistrationClosed = computed(() => {
+  return page.props.errors.registrationClosedError || page.props.errors.transactionError;
+});
 
 const date = formatDateLong(props.trip.date);
 </script>
@@ -87,11 +96,12 @@ const date = formatDateLong(props.trip.date);
         <n-form-item label="ФИО" :feedback="form.errors.full_name" :validation-status="getErrorStatus(form.errors.full_name)" required>
           <n-input
             v-model:value="form.full_name"
-            placeholder="Иванов И.И."
-            autofocus
+            v-maska:[fullNameMask]
             :input-props="{
               autocomplete: 'name',
             }"
+            placeholder="Иванов И.И."
+            autofocus
           />
         </n-form-item>
         <n-form-item
@@ -102,11 +112,20 @@ const date = formatDateLong(props.trip.date);
           "
           required
         >
-          <n-input v-model:value="form.pass" inputmode="numeric" maxlength="4" placeholder="3006" />
+          <n-input
+            v-model:value="form.pass"
+            v-maska:[passMask]
+            :input-props="{
+              inputmode: 'numeric',
+            }"
+            maxlength="4"
+            placeholder="3006"
+          />
         </n-form-item>
         <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input
             v-model:value="form.telegram"
+            required
             placeholder="username"
             :input-props="{
               autocomplete: 'username',
@@ -118,7 +137,7 @@ const date = formatDateLong(props.trip.date);
           </n-input>
         </n-form-item>
         <n-form-item label="Остановка" :feedback="form.errors.stop_id" :validation-status="getErrorStatus(form.errors.stop_id)" required>
-          <n-select v-model:value="form.stop_id" :options="selectStopOptions" />
+          <n-select v-model:value="form.stop_id" :options="getStopOptions()" />
         </n-form-item>
       </div>
 
@@ -126,12 +145,10 @@ const date = formatDateLong(props.trip.date);
         <n-form-item :show-label="false" :feedback="form.errors.over_18" :validation-status="getErrorStatus(form.errors.over_18)">
           <n-checkbox v-model:checked="form.over_18"> Подтверждаю, что мне есть 18 лет</n-checkbox>
         </n-form-item>
-        <n-form-item
-          :show-label="false"
-          :feedback="$page.props.errors.registrationClosedError"
-          :validation-status="getErrorStatus($page.props.errors.registrationClosedError)"
-        >
-          <n-button :disabled="!formIsValid" type="primary" attr-type="submit">Зарегистрироваться</n-button>
+        <n-form-item :show-label="false" :feedback="isRegistrationClosed" :validation-status="getErrorStatus(isRegistrationClosed)">
+          <n-button :disabled="!formIsValid || isRegistrationClosed !== undefined" :loading="form.processing" type="primary" attr-type="submit"
+            >Зарегистрироваться</n-button
+          >
         </n-form-item>
       </div>
     </n-form>

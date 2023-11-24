@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\TripRequest;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\TripResource;
+use App\Models\Registration;
 use App\Models\Route;
 use App\Models\Trip;
 use Carbon\Carbon;
@@ -17,7 +18,10 @@ class TripController extends BaseController
     public function index(): Response
     {
         $trips = TripResource::collection(
-            Trip::with('route')->orderByStartsAt()->get()
+            Trip::with('route')
+                ->withCount('registrations')
+                ->orderByStartsAt()
+                ->get()
         );
 
         return inertia('Admin/Trips/Index', ['trips' => $trips]);
@@ -25,8 +29,10 @@ class TripController extends BaseController
 
     public function show(Trip $trip): Response
     {
-        return inertia('Admin/Trips/Index', [
-            'trip' => new TripResource($trip->load('route'))
+        return inertia('Admin/Trips/Show', [
+            'trip' => new TripResource(
+                $trip->load('route', 'registrations')->loadCount('registrations')
+            )
         ]);
     }
 
@@ -43,7 +49,8 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        Trip::create([...$validated,
+        Trip::create([
+            ...$validated,
             'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
@@ -66,7 +73,8 @@ class TripController extends BaseController
     {
         $validated = $request->validated();
 
-        $trip->update([...$validated,
+        $trip->update([
+            ...$validated,
             'date' => Carbon::createFromTimestampMs($validated['date'])
         ]);
 
@@ -78,5 +86,12 @@ class TripController extends BaseController
         $trip->delete();
 
         return redirect()->route('admin.trips.index');
+    }
+
+    public function destroyRegistration(Registration $registration): RedirectResponse
+    {
+        $registration->delete();
+
+        return redirect()->back();
     }
 }

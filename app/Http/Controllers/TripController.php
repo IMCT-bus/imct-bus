@@ -7,6 +7,7 @@ use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\TripResource;
 use App\Models\Trip;
 use App\Services\RegistrationService;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Response;
@@ -45,6 +46,8 @@ class TripController extends BaseController
             return redirect()->route('trips.index');
         } catch (ValidationException $exception) {
             return back()->withErrors($exception->validator->errors());
+        } catch (Exception $exception) {
+            return back()->withErrors(['transactionError' => $exception->getMessage()]);
         }
     }
 

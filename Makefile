@@ -4,12 +4,16 @@ EXEC = docker exec -it $(PHP_CONTAINER)
 install:
 	$(EXEC) composer i
 	$(EXEC) php artisan key:generate
-	$(EXEC) php artisan migrate --seed
+	$(EXEC) php artisan migrate
+	make prod_seed
 
 migrate:
 	$(EXEC) php artisan migrate
 
-seed:
+prod_seed:
+	$(EXEC) php artisan db:seed --class=UserSeeder
+
+dev_seed:
 	$(EXEC) php artisan db:seed
 
 wipe:
@@ -30,4 +34,5 @@ php_bash:
 
 refresh:
 	$(EXEC) php artisan db:wipe
-	$(EXEC) php artisan migrate --seed
+	$(EXEC) php artisan migrate
+	make dev_seed

@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('routes', RouteController::class)
             ->except('show');
         Route::resource('trips', \App\Http\Controllers\Admin\TripController::class);
+        Route::delete('/registrations/{registration}', [\App\Http\Controllers\Admin\TripController::class, 'destroyRegistration'])->name('trips.destroyRegistration');
         Route::resource('passengers', PassengerController::class)
             ->only('index', 'store', 'destroy');
     });

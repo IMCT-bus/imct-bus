@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { InertiaForm } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, reactive } from 'vue';
 import { SelectOption } from 'naive-ui';
 
 import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 import FadeTransition from '@/components/shared/FadeTransition.vue';
 
-import { getErrorStatus } from '@/utils/validation';
+import { getErrorStatus, carNumberMask } from '@/utils/validation';
 import { sub } from 'date-fns';
+import { vMaska } from 'maska';
 
 type TripFormProps = {
   routes: Resources.RouteResource[];
@@ -49,7 +50,7 @@ function disablePreviousDate(timestamp: number) {
         <n-date-picker v-model:value="form.date" format="PPP" :is-date-disabled="disablePreviousDate" type="date" clearable :actions="null" />
       </n-form-item>
       <n-form-item label="Гос. номер" :feedback="form.errors.car_number" :validation-status="getErrorStatus(form.errors.car_number)">
-        <n-input v-model:value="form.car_number" placeholder="В 232 ИН" />
+        <n-input v-model:value="form.car_number" v-maska:[carNumberMask] placeholder="В 232 ИН" />
       </n-form-item>
       <n-form-item label="Ссылка на локатор" :feedback="form.errors.link" :validation-status="getErrorStatus(form.errors.link)">
         <n-input v-model:value="form.link" placeholder="Ссылка" />

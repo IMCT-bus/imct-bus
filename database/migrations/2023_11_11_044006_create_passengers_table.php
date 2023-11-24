@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('pass', 4)->unique();
             $table->string('full_name', 50);
-            $table->string('telegram', 32)->nullable();
+            $table->softDeletes();
         });
     }
 

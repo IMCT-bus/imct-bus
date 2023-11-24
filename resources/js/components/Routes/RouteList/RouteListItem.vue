@@ -4,7 +4,7 @@ import StopsTimeline from '@/components/shared/StopsTimeline.vue';
 type RouteListItemProps = {
   routeItem: Resources.RouteResource;
   onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  onDelete: (route: Resources.RouteResource) => void;
 };
 
 defineProps<RouteListItemProps>();
@@ -12,14 +12,14 @@ defineProps<RouteListItemProps>();
 
 <template>
   <n-list-item>
-    <n-thing :description="`Время начала: ${routeItem.starts_at}`">
+    <n-thing>
       <template #header>
-        {{ routeItem.name }}
+      <span class="date">({{ routeItem.starts_at }})</span>  <span>{{ routeItem.name }}</span>
       </template>
       <template #action>
         <div class="actions">
           <n-button size="small" ghost type="info" @click="onEdit(routeItem.id)">Редактировать</n-button>
-          <n-button size="small" @click="onDelete(routeItem.id)">Удалить</n-button>
+          <n-button size="small" @click="onDelete(routeItem)">Удалить</n-button>
         </div>
       </template>
       <n-collapse>

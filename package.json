@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "prod": "npm i && npm run build"
     },
     "devDependencies": {
         "@types/node": "^20.8.10",
@@ -24,6 +25,7 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.14",
         "date-fns": "^2.30.0",
+        "maska": "^2.1.10",
         "nanoid": "^4.0.2",
         "vue": "^3.3.7",
         "ziggy-js": "^1.8.1"

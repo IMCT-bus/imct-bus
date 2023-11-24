@@ -7,12 +7,14 @@ use App\Models\Registration;
 use App\Models\Trip;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class RegistrationService
 {
     /**
      * @throws ValidationException
+     * @throws Exception
      */
     public function create(array $validated, Trip $trip): void
     {
@@ -30,11 +32,7 @@ class RegistrationService
             throw ValidationException::withMessages(['registrationClosedError' => 'Регистрация на рейс закрыта.']);
         }
 
-        $this->startTransaction($trip->uuid, $passenger->id, $validated['stop_id']);
-
-        if ($validated['telegram']) {
-            $passenger->update(['telegram' => $validated['telegram']]);
-        }
+        $this->startTransaction($trip->uuid, $passenger->id, $validated['telegram'], $validated['stop_id']);
     }
 
     /**
@@ -57,7 +55,10 @@ class RegistrationService
         $registration->delete();
     }
 
-    private function startTransaction(string $tripUuid, int $passengerId, int $stopId): void
+    /**
+     * @throws Exception
+     */
+    public function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
     {
         DB::beginTransaction();
         try {
@@ -66,8 +67,14 @@ class RegistrationService
                 ->lockForUpdate()
                 ->get();
 
+            $trip = Trip::find($tripUuid);
+            if ($trip->loadCount('registrations')->registrations_count >= $trip->seats) {
+                throw new Exception('Регистрация на рейс закрыта.');
+            }
+
             DB::table('registrations')->insert([
                 'passenger_id' => $passengerId,
+                'telegram' => $telegram,
                 'trip_uuid' => $tripUuid,
                 'stop_id' => $stopId,
                 'created_at' => now(),
@@ -75,9 +82,10 @@ class RegistrationService
             ]);
 
             DB::commit();
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             DB::rollback();
-            // Обработка ошибки, если регистрация не удалась
+            Log::error('Transaction failed: ' . $exception->getMessage());
+            throw $exception;
         }
     }
 
