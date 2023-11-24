@@ -3,11 +3,10 @@ import { router, useForm } from '@inertiajs/vue3';
 import route from 'ziggy-js';
 
 import AppLayout from '@/layouts/AppLayout.vue';
-
-import { Close } from '@vicons/ionicons5';
 import { getErrorStatus, passMask, fullNameMask } from '@/utils/validation';
 import { vMaska } from 'maska';
 import { useDialog } from 'naive-ui';
+import PassengerListItem from '@/pages/Admin/Passengers/PassengerListItem.vue';
 
 type PassengersPageProps = {
   passengers: Models.Passenger[];
@@ -63,15 +62,7 @@ function onDeleteClick(passenger: Models.Passenger) {
     </n-form>
     <n-list hoverable>
       <n-list-item v-for="passenger in passengers" class="passenger-data">
-        <n-space justify="space-between" align="center">
-          <p>{{ passenger.pass }}</p>
-          <p class="name">{{ passenger.full_name }}</p>
-          <n-button type="error" quaternary @click="onDeleteClick(passenger)">
-            <template #icon>
-              <n-icon :component="Close" size="20px" />
-            </template>
-          </n-button>
-        </n-space>
+        <PassengerListItem :passenger="passenger" :on-delete-click="onDeleteClick" />
       </n-list-item>
     </n-list>
   </AppLayout>
@@ -84,7 +75,7 @@ function onDeleteClick(passenger: Models.Passenger) {
 
 .passenger-data {
   font-size: 0.9rem;
-  padding: 12px 12px !important;
+  padding: 12px 0 !important;
 }
 .container {
   display: grid;

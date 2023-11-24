@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use App\Rules\FullNameRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PassengerRequest extends FormRequest
+class PassengerUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,8 +16,10 @@ class PassengerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pass' => ['required', 'string', 'numeric', 'digits:4', 'unique:passengers,pass'],
-            'full_name' => ['required', 'string', 'max:50', new FullNameRule()]
+            'pass' => ['nullable', 'string', 'numeric', 'digits:4',
+                Rule::unique('passengers', 'pass')->ignore($this->route('passenger.id'))
+            ],
+            'full_name' => ['nullable', 'string', 'max:50', new FullNameRule()]
         ];
     }
 
