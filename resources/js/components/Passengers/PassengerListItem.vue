@@ -27,7 +27,10 @@ function onUpdateClick() {
 
 function onUpdateSave() {
   form.put(route('admin.passengers.update', props.passenger.id), {
-    onSuccess: () => (isEditing.value = false),
+    preserveScroll: true,
+    onSuccess: () => {
+      isEditing.value = false;
+    },
   });
 }
 </script>
@@ -82,7 +85,7 @@ function onUpdateSave() {
   }
 
   @include phone {
-    row-gap: .5rem;
+    row-gap: 0.5rem;
     grid-template-columns: 1fr;
   }
 }
