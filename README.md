@@ -5,7 +5,7 @@
 ```
 cp .env.example .env
 ```
-В .env заполняем данные для подключения к БД (DB_)
+В .env заполняем данные для подключения к БД (DB_), реквизиты для входа в админский аккаунт (ADMIN_)
 
 ```
 docker-compose up -d
@@ -16,7 +16,8 @@ docker-compose up -d
 docker exec -it bus-php bash 
 composer i
 php artisan key:generate
-php artisan migrate --seed
+php artisan migrate
+php artisan db:seed --class=UserSeeder
 ```
 или 
 
@@ -41,12 +42,12 @@ Vite - localhost:5173
 MariaDB - localhost:3306
 
 
-### Запуск сидеров
-```
-make seed
-```
-или 
+### Запуск всех сидеров
+в контейнере
 ```
 php artisan db:seed
 ```
-в контейнере
+или 
+```
+make dev_seed
+```
