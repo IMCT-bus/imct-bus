@@ -62,7 +62,7 @@ function onDeleteClick(passenger: Models.Passenger) {
     </n-form>
     <n-list hoverable>
       <n-list-item v-for="passenger in passengers" class="passenger-data">
-        <PassengerListItem :passenger="passenger" :on-delete-click="onDeleteClick" />
+        <PassengerListItem :key="passenger.full_name" :passenger="passenger" :on-delete-click="onDeleteClick" />
       </n-list-item>
     </n-list>
   </AppLayout>

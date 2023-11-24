@@ -7,7 +7,6 @@ import { Close, PencilSharp, SaveSharp } from '@vicons/ionicons5';
 
 import { vMaska } from 'maska';
 import { getErrorStatus, passMask, fullNameMask } from '@/utils/validation';
-import { is } from 'date-fns/locale';
 
 type PassengerListItemProps = {
   passenger: Models.Passenger;
