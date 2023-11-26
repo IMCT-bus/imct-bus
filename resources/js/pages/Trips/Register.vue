@@ -122,10 +122,9 @@ const date = formatDateLong(props.trip.date);
             placeholder="3006"
           />
         </n-form-item>
-        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
+        <n-form-item label="Telegram для связи" required :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input
             v-model:value="form.telegram"
-            required
             placeholder="username"
             :input-props="{
               autocomplete: 'username',
