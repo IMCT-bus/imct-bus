@@ -18,7 +18,7 @@ class RegistrationRequest extends FormRequest
         return [
             'pass' => ['required', 'string', 'numeric', 'digits:4', 'exists:passengers,pass'],
             'full_name' => ['required', 'string', 'max:50', new FullNameRule()],
-            'telegram' => ['required', 'string', 'min:5', 'max:32', new TelegramUsernameRule()],
+            'telegram' => ['required', 'string', 'min:5', 'max:32'],
             'stop_id' => ['required', 'integer', 'exists:stops,id'],
             'over_18' => ['required', 'boolean', 'accepted']
         ];
