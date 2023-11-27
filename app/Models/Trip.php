@@ -70,6 +70,21 @@ class Trip extends Model
         return $query->whereDate('date', '>=', $today);
     }
 
+    public function scopeTodayAndLaterButSkipTodayAfterTwoHoursFromStartsAt(Builder $query): Builder
+    {
+        $today = new DateTime('now', new DateTimeZone('Asia/Vladivostok'));
+
+        return $query
+            ->whereDate('date', '>', $today)
+            ->orWhere(function ($query) use ($today) {
+                $query
+                    ->whereDate('date', '=', $today)
+                    ->whereHas('route', function ($query) use ($today) {
+                        $query->whereTime('starts_at', '>=', $today->modify('-2 hours')->format('H:i:s'));
+                    });
+            });
+    }
+
     public function scopeOrderByStartsAt(Builder $query): Builder
     {
         return $query->join('routes', 'routes.id', '=', 'trips.route_id')
