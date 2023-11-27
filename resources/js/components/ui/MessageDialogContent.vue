@@ -17,7 +17,9 @@ defineProps<MessageDialogContentProps>();
       <p>{{ trip.route.name }}</p>
     </div>
     <p>Ждем вас на остановке</p>
-    <p class="bold">{{ stop.name }} в {{ stop.arrives_at }}</p>
+    <p class="bold">
+      {{ stop.name }} <span v-if="stop.arrives_at && stop.arrives_at.length > 0">в {{ stop.arrives_at }}</span>
+    </p>
   </div>
 </template>
 

@@ -9,8 +9,6 @@ type TripsShowProps = {
 };
 
 const props = defineProps<TripsShowProps>();
-
-console.log(JSON.stringify(props.trip, null, 2));
 </script>
 
 <template>
