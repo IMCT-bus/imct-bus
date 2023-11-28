@@ -77,11 +77,18 @@ class Trip extends Model
         return $query
             ->whereDate('date', '>', $today)
             ->orWhere(function ($query) use ($today) {
-                $query
-                    ->whereDate('date', '=', $today)
-                    ->whereHas('route', function ($query) use ($today) {
-                        $query->whereTime('starts_at', '>=', $today->modify('-2 hours')->format('H:i:s'));
-                    });
+                $dayTwoHoursAgo = (clone $today)->modify('-2 hours');
+
+                if ($today->format('Y-m-d') == $dayTwoHoursAgo->format('Y-m-d')) {
+                    $query
+                        ->whereDate('date', '=', $today)
+                        ->whereHas('route', function ($query) use ($dayTwoHoursAgo) {
+                            $query->whereTime('starts_at', '>=', $dayTwoHoursAgo->format('H:i'));
+                        });
+                }
+                else {
+                    $query->whereDate('date', '=', $today);
+                }
             });
     }
 

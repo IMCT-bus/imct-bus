@@ -22,7 +22,7 @@ class TripController extends BaseController
             Trip::with('route')
                 ->withCount('registrations')
                 ->published()
-                ->todayAndLater()
+                ->todayAndLaterButSkipTodayAfterTwoHoursFromStartsAt()
                 ->orderByStartsAt()
                 ->get()
         );
