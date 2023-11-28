@@ -19,7 +19,7 @@ type TripStatistics = {
   pass: string;
   stop: string;
   stopPosition: number;
-  telegram: string;
+  telegram: string | null;
   registrationId: number;
 };
 
@@ -110,7 +110,7 @@ const data = ref<TripStatistics[]>(
       pass: reg.passenger?.pass ?? 'Ошибка',
       stop: stopData.label,
       stopPosition: stopData.stop?.position ?? 9999,
-      telegram: reg.telegram.startsWith('@') ? reg.telegram : `@${reg.telegram}`,
+      telegram: reg.telegram ? (reg.telegram.startsWith('@') ? reg.telegram : `@${reg.telegram}`) : null,
       registrationId: reg.id,
     };
   }),

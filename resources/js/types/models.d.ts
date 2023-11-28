@@ -37,11 +37,11 @@ declare namespace Models {
     full_name: string;
     pass: string;
     telegram?: string;
-  }
+  };
 
   export type Registration = {
     id: number;
-    telegram: string;
+    telegram: string | null;
     stop_id: number;
-  }
+  };
 }

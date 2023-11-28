@@ -58,7 +58,7 @@ class RegistrationService
     /**
      * @throws Exception
      */
-    public function startTransaction(string $tripUuid, int $passengerId, string $telegram, int $stopId): void
+    public function startTransaction(string $tripUuid, int $passengerId, ?string $telegram, int $stopId): void
     {
         DB::beginTransaction();
         try {

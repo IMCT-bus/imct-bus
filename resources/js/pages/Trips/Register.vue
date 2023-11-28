@@ -68,7 +68,7 @@ function getStopOptions() {
 }
 
 const formIsValid = computed(() => {
-  return form.full_name.length > 4 && form.pass.length === 4 && form.telegram.length > 4 && form.stop_id !== null && form.over_18;
+  return form.full_name.length > 4 && form.pass.length === 4 && form.stop_id !== null && form.over_18;
 });
 
 const isRegistrationClosed = computed(() => {
@@ -122,7 +122,7 @@ const date = formatDateLong(props.trip.date);
             placeholder="3006"
           />
         </n-form-item>
-        <n-form-item label="Telegram для связи" required :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
+        <n-form-item label="Telegram для связи" :feedback="form.errors.telegram" :validation-status="getErrorStatus(form.errors.telegram)">
           <n-input
             v-model:value="form.telegram"
             placeholder="username"
