@@ -57,7 +57,7 @@ class TripController extends BaseController
             'trips' => TripResource::collection(
                 Trip::with('route')
                 ->published()
-                ->todayAndLater()
+                ->todayAndLaterButSkipTodayAfterTwoHoursFromStartsAt()
                 ->orderByStartsAt()
                 ->get()
             )
